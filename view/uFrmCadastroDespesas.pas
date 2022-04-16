@@ -75,6 +75,8 @@ type
     btnListagem: TSpeedButton;
     rtcMenu: TRectangle;
     lytContainer: TLayout;
+    rtcInformacoes: TRectangle;
+    lblInformacaoAcoesGrade: TLabel;
     procedure btnSalvarClick(Sender: TObject);
     procedure mniRemoverGastoClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
@@ -96,6 +98,8 @@ type
     procedure LimparCadastro;
     procedure PesquisarDespesas;
 
+    procedure AtivarAbaCadastro;
+
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject);
@@ -116,9 +120,14 @@ begin
   lytContainer.Parent := pContainer;
 end;
 
-procedure TfrmCadastroDespesas.btnCadastroClick(Sender: TObject);
+procedure TfrmCadastroDespesas.AtivarAbaCadastro;
 begin
   tbcCadastroDespesas.ActiveTab := tbiCadastro;
+end;
+
+procedure TfrmCadastroDespesas.btnCadastroClick(Sender: TObject);
+begin
+  AtivarAbaCadastro;
 end;
 
 procedure TfrmCadastroDespesas.btnCancelarClick(Sender: TObject);
@@ -131,6 +140,8 @@ end;
 procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);
 begin
   tbcCadastroDespesas.ActiveTab := tbiListagem;
+
+  qrPesquisarDespesas.close;
 end;
 
 procedure TfrmCadastroDespesas.btnPesquisarClick(Sender: TObject);
@@ -184,6 +195,8 @@ begin
   FConexao := TModelConexaoFeature.Criar;
   //Gambiarra para diminuir código estudar live binding
   qrPesquisarDespesas.Connection := TFDCustomConnection(FConexao.Conexao);
+
+  AtivarAbaCadastro;
 end;
 
 procedure TfrmCadastroDespesas.LimparCadastro;
@@ -195,23 +208,31 @@ end;
 
 procedure TfrmCadastroDespesas.mniAlterarDespesaClick(Sender: TObject);
 begin
-  PreencherDadosAbaCadastro(qrPesquisarDespesasid.AsInteger,
-                            qrPesquisarDespesasdata.AsDateTime,
-                            qrPesquisarDespesasvalor.AsFloat,
-                            qrPesquisarDespesasdescricao.AsString);
+  if not qrPesquisarDespesas.IsEmpty then
+  begin
+    PreencherDadosAbaCadastro(qrPesquisarDespesasid.AsInteger,
+                              qrPesquisarDespesasdata.AsDateTime,
+                              qrPesquisarDespesasvalor.AsFloat,
+                              qrPesquisarDespesasdescricao.AsString);
 
-  FAcaoCadastro := acAtualizar;
+    FAcaoCadastro := acAtualizar;
 
-  tbcCadastroDespesas.ActiveTab := tbiCadastro;
+    tbcCadastroDespesas.ActiveTab := tbiCadastro;
+  end;
 end;
 
 procedure TfrmCadastroDespesas.mniRemoverGastoClick(Sender: TObject);
 begin
-  TController
-    .Criar
-    .Gasto
-    .Id(qrPesquisarDespesas.FieldByName('ID').AsInteger)
-    .Deletar;
+  if not qrPesquisarDespesas.IsEmpty then
+  begin
+    TController
+      .Criar
+      .Gasto
+      .Id(qrPesquisarDespesas.FieldByName('ID').AsInteger)
+      .Deletar;
+
+    qrPesquisarDespesas.Refresh;
+  end;
 end;
 
 procedure TfrmCadastroDespesas.PesquisarDespesas;

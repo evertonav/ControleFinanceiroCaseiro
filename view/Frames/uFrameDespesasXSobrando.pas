@@ -56,16 +56,17 @@ begin
                             .DataFinal(FDataFinal)
                             .TotalDespesas;
 
-  lblValorDespesas.Text := lTotalDespesas.ToString;
+  lblValorDespesas.Text := FormatFloat('0.00', lTotalDespesas);
 
-  lblValorSobrando.Text := TModelDAODespesasXSobrando
-                            .Criar
-                            .IdUsuario(TUsuarioLogado.gCodigoUsuario)
-                            .DataInicial(FDataInicial)
-                            .DataFinal(FDataFinal)
-                            .TotalSobrando(lTotalDespesas).ToString;
+  lblValorSobrando.Text := FormatFloat('0.00',
+                                       TModelDAODespesasXSobrando
+                                         .Criar
+                                         .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+                                         .DataInicial(FDataInicial)
+                                         .DataFinal(FDataFinal)
+                                         .TotalSobrando(lTotalDespesas));
 
-  lblMesAno.Text := MonthOf(FDataInicial).ToString + '/' + YearOf(FDataInicial).ToString;
+  lblMesAno.Text := FormatFloat('00', MonthOf(FDataInicial)) + '/' + YearOf(FDataInicial).ToString;
 end;
 
 procedure TFrameDespesasXSobrando.SetDataFinal(const Value: TDate);
