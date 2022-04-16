@@ -31,6 +31,10 @@ type
     lblAdicionarGastos: TLabel;
     imgAdicionarGastos: TImage;
     btnAdicionarGastos: TSpeedButton;
+    rtcAdicionarGasto: TRectangle;
+    lneAdicionarGastos: TLine;
+    rtcPrincipal: TRectangle;
+    lnePrincipal: TLine;
     procedure FormCreate(Sender: TObject);
     procedure btnPrincipalClick(Sender: TObject);
     procedure btnAdicionarGastosClick(Sender: TObject);
@@ -42,6 +46,7 @@ type
     procedure MostrarMenuInterativoOuTotalizador;
 
     procedure ConfigurarMostrarMenus(const pMenu: TMenu);
+    procedure ConfigurarMenuSelecionado(const pMenu: TMenu);
   public
     { Public declarations }
     procedure MostrarAdicaoGastos;
@@ -65,6 +70,12 @@ begin
   rtcMenuEsquerda.Visible := not rtcMenuEsquerda.Visible;
 end;
 
+procedure TfrmPrincipal.ConfigurarMenuSelecionado(const pMenu: TMenu);
+begin
+  rtcAdicionarGasto.Visible := pMenu = mnAdicaoGastos;
+  rtcPrincipal.Visible := pMenu = mnMenuInterativoOuTotalizados;
+end;
+
 procedure TfrmPrincipal.ConfigurarMostrarMenus(const pMenu: TMenu);
 begin
   if Assigned(FContainerAdicionado) then
@@ -72,6 +83,8 @@ begin
 
   lytContainerCentroTela.Visible := pMenu = mnMenuInterativoOuTotalizados;
   lytContainerTelaInteira.Visible := pMenu = mnAdicaoGastos;
+
+  ConfigurarMenuSelecionado(pMenu);
 
   case pMenu of
     mnMenuInterativoOuTotalizados: MostrarMenuInterativoOuTotalizador;
