@@ -5,14 +5,11 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Controls.Presentation, FMX.Objects, FMX.Layouts;
+  FMX.Controls.Presentation, FMX.Objects, FMX.Layouts, uFramePai;
 
 type
-  TFrameDespesasXSobrando = class(TFrame)
+  TFrameDespesasXSobrando = class(TFramePai)
     lytContainer: TLayout;
-    lytMesAno: TLayout;
-    rtcMesAno: TRectangle;
-    lblMesAno: TLabel;
     rtcContainer: TRectangle;
     Layout7: TLayout;
     Label3: TLabel;
@@ -20,6 +17,9 @@ type
     Layout6: TLayout;
     lblTotalDespesas: TLabel;
     lblValorDespesas: TLabel;
+    lytMesAno: TLayout;
+    rtcMesAno: TRectangle;
+    lblMesAno: TLabel;
   private
     FDataInicial: TDate;
     FDataFinal: TDate;

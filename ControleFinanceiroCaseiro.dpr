@@ -27,7 +27,8 @@ uses
   uFrameLogin in 'view\Frames\uFrameLogin.pas' {Frame2: TFrame},
   uFrmCadastroPai in 'view\uFrmCadastroPai.pas' {frmCadastroPai},
   uFrmCadastroDevedores in 'view\uFrmCadastroDevedores.pas' {frmCadastroDevedores},
-  Model.DAO.Devedores in 'model\DAO\Model.DAO.Devedores.pas';
+  Model.DAO.Devedores in 'model\DAO\Model.DAO.Devedores.pas',
+  uFramePai in 'view\Frames\uFramePai.pas' {FramePai: TFrame};
 
 {$R *.res}
 

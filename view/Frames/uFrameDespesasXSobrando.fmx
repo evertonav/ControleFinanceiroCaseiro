@@ -1,8 +1,6 @@
-object FrameDespesasXSobrando: TFrameDespesasXSobrando
+inherited FrameDespesasXSobrando: TFrameDespesasXSobrando
   Align = Client
-  Size.Width = 320.000000000000000000
   Size.Height = 240.000000000000000000
-  Size.PlatformDefault = False
   object lytContainer: TLayout
     Align = Client
     Size.Width = 320.000000000000000000
