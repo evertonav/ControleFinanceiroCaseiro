@@ -17,7 +17,6 @@ type
   private
     FDataInicial: TDate;
     FDataFinal: TDate;
-    FQuery: TDataSet;
     FDataSet: TDataSet;
     FDescricao: string;
 

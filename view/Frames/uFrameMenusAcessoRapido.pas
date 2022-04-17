@@ -5,17 +5,17 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants, 
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Layouts, FMX.Controls.Presentation, FMX.Objects;
+  FMX.Layouts, FMX.Controls.Presentation, FMX.Objects, uFramePai;
 
 type
-  TFrame1 = class(TFrame)
-    Rectangle1: TRectangle;
+  TFrameMenuAcessoRapido = class(TFramePai)
+    rtcContainer: TRectangle;
+    lytMenuAcessoRapido: TLayout;
+    lblMenuAcessoRapido: TLabel;
+    lneMenuAcessoRapido: TLine;
     rtcAdicionarDespesas: TRectangle;
-    Layout1: TLayout;
-    Label2: TLabel;
     imgAdicionarDespesas: TImage;
     lneAdicionarDespesas: TLine;
-    Line2: TLine;
     btnAdicionarDespesas: TSpeedButton;
     procedure btnAdicionarDespesasClick(Sender: TObject);
   private
@@ -31,9 +31,9 @@ uses
 
 {$R *.fmx}
 
-procedure TFrame1.btnAdicionarDespesasClick(Sender: TObject);
+procedure TFrameMenuAcessoRapido.btnAdicionarDespesasClick(Sender: TObject);
 begin
-  FrmPrincipal.MostrarAdicaoGastos;
+  FrmPrincipal.ConfigurarMostrarMenus(mnAdicaoGastos);
 end;
 
 end.

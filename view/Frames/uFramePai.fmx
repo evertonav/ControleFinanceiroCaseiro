@@ -1,0 +1,5 @@
+object FramePai: TFramePai
+  Size.Width = 320.000000000000000000
+  Size.Height = 149.000000000000000000
+  Size.PlatformDefault = False
+end

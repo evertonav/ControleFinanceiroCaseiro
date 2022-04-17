@@ -18,6 +18,21 @@ type
     function Executar: TFmxObject;
   end;
 
+  TAdicionarFrame = Class(TInterfacedObject, IAdicionarFrame)
+  strict protected
+    FContainer: TFmxObject;
+  public
+    function Container(const pValor: TFmxObject): IAdicionarFrame;
+    function Executar:  TFmxObject;  virtual; abstract;
+
+    class function Criar: IAdicionarFrame;
+  End;
+
+  TAdicionarFrameLogin = class(TAdicionarFrame)
+  public
+    function Executar: TFmxObject; override;
+  end;
+
   TAdicionarFrameDespesasXSobrando = class(TInterfacedObject, IAdicionarFramePeriodo)
   strict private
     FContainer: TFmxObject;
@@ -33,24 +48,19 @@ type
     class function Criar: IAdicionarFramePeriodo;
   end;
 
-  TAdicionarFrameMenuAcessoRapido = class(TInterfacedObject, IAdicionarFrame)
-  strict private
-    FContainer: TFmxObject;
+  TAdicionarFrameMenuAcessoRapido = class(TAdicionarFrame)
   public
-    function Container(const pValor: TFmxObject): IAdicionarFrame;
-    function Executar:  TFmxObject;
-
-    class function Criar: IAdicionarFrame;
+    function Executar:  TFmxObject; override;
   end;
 
-  TAdicionarCadastroDespesas = class(TInterfacedObject, IAdicionarFrame)
-  strict private
-    FContainer: TFmxObject;
+  TAdicionarCadastroDespesas = class(TAdicionarFrame)
   public
-    function Container(const pValor: TFmxObject): IAdicionarFrame;
-    function Executar:  TFmxObject;
+    function Executar:  TFmxObject; override;
+  end;
 
-    class function Criar: IAdicionarFrame;
+  TAdicionarCadastroDevedores = class(TAdicionarFrame)
+  public
+    function Executar: TFmxObject; override;
   end;
 
 
@@ -60,7 +70,9 @@ uses
   uFrameDespesasXSobrando,
   uFrameMenusAcessoRapido,
   uFrmCadastroDespesas,
-  Uteis;
+  Uteis,
+  uFrameLogin,
+  uFrmCadastroDevedores;
 
 { TAdicionarFrameDespesasXSobrando }
 
@@ -99,7 +111,7 @@ var
 begin
   fttDespesasXSobrando := TFrameDespesasXSobrando.Create(FContainer);
 
-  fttDespesasXSobrando.Parent := FContainer;
+  fttDespesasXSobrando.AdicionarParent(FContainer);
   fttDespesasXSobrando.Name := fttDespesasXSobrando.ClassName + '_';
   fttDespesasXSobrando.DataInicial := FDataInicial;
   fttDespesasXSobrando.DataFinal := FDataFinal;
@@ -110,45 +122,19 @@ end;
 
 { TAdicionarFrameMenuAcessoRapido }
 
-function TAdicionarFrameMenuAcessoRapido.Container(
-  const pValor: TFmxObject): IAdicionarFrame;
-begin
-  FContainer := pValor;
-
-  Result := Self;
-end;
-
-class function TAdicionarFrameMenuAcessoRapido.Criar: IAdicionarFrame;
-begin
-  Result := Self.Create;
-end;
-
 function TAdicionarFrameMenuAcessoRapido.Executar: TFmxObject;
 var
-  fttMenusAcessoRapido: TFrame1;
+  fttMenusAcessoRapido: TFrameMenuAcessoRapido;
 begin
-  fttMenusAcessoRapido := TFrame1.Create(FContainer);
+  fttMenusAcessoRapido := TFrameMenuAcessoRapido.Create(FContainer);
 
-  fttMenusAcessoRapido.Parent := FContainer;
+  fttMenusAcessoRapido.AdicionarParent(FContainer);
   fttMenusAcessoRapido.Name := fttMenusAcessoRapido.ClassName + '_';
 
   Result := fttMenusAcessoRapido;
 end;
 
 { TAdicionarCadastroDespesas }
-
-function TAdicionarCadastroDespesas.Container(
-  const pValor: TFmxObject): IAdicionarFrame;
-begin
-  FContainer := pValor;
-
-  Result := Self;
-end;
-
-class function TAdicionarCadastroDespesas.Criar: IAdicionarFrame;
-begin
-  Result := Self.Create;
-end;
 
 function TAdicionarCadastroDespesas.Executar: TFmxObject;
 var
@@ -160,6 +146,48 @@ begin
   lfrmCadastroDespesas.Name := lfrmCadastroDespesas.ClassName + '_';
 
   Result := lfrmCadastroDespesas;
+end;
+
+{ TAdicionarFrame }
+
+function TAdicionarFrame.Container(const pValor: TFmxObject): IAdicionarFrame;
+begin
+  FContainer := pValor;
+
+  Result := Self;
+end;
+
+class function TAdicionarFrame.Criar: IAdicionarFrame;
+begin
+  Result := Self.Create;
+end;
+
+{ TAdicionarFrameLogin }
+
+function TAdicionarFrameLogin.Executar: TFmxObject;
+var
+  lFrameLogin: TFrame2;
+begin
+  lFrameLogin := TFrame2.Create(FContainer);
+
+  lFrameLogin.AdicionarParent(FContainer);
+  lFrameLogin.Name := lFrameLogin.ClassName + '_';
+
+  Result := lFrameLogin;
+end;
+
+{ TAdicionarCadastroDevedores }
+
+function TAdicionarCadastroDevedores.Executar: TFmxObject;
+var
+  lFrmCadastroDevedores: TfrmCadastroDevedores;
+begin
+  lFrmCadastroDevedores := TfrmCadastroDevedores.Create(FContainer);
+
+  lFrmCadastroDevedores.AdicionarParent(FContainer);
+  lFrmCadastroDevedores.Name := lFrmCadastroDevedores.ClassName + '_';
+
+  Result := lFrmCadastroDevedores;
 end;
 
 end.

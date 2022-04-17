@@ -23,7 +23,11 @@ uses
   Controller.VariaveisGlobais in 'controller\Controller.VariaveisGlobais.pas',
   Controller in 'controller\Controller.pas',
   Model.DAO.BuscarDespesas in 'model\DAO\Model.DAO.BuscarDespesas.pas',
-  AdicionarFrames in 'view\AdicionarFrames.pas';
+  AdicionarFrames in 'view\AdicionarFrames.pas',
+  uFrameLogin in 'view\Frames\uFrameLogin.pas' {Frame2: TFrame},
+  uFrmCadastroPai in 'view\uFrmCadastroPai.pas' {frmCadastroPai},
+  uFrmCadastroDevedores in 'view\uFrmCadastroDevedores.pas' {frmCadastroDevedores},
+  Model.DAO.Devedores in 'model\DAO\Model.DAO.Devedores.pas';
 
 {$R *.res}
 
@@ -31,5 +35,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TfrmCadastroPai, frmCadastroPai);
+  Application.CreateForm(TfrmCadastroDevedores, frmCadastroDevedores);
   Application.Run;
 end.

@@ -293,6 +293,20 @@
         <DCCReference Include="controller\Controller.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.BuscarDespesas.pas"/>
         <DCCReference Include="view\AdicionarFrames.pas"/>
+        <DCCReference Include="view\Frames\uFrameLogin.pas">
+            <Form>Frame2</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="view\uFrmCadastroPai.pas">
+            <Form>frmCadastroPai</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="view\uFrmCadastroDevedores.pas">
+            <Form>frmCadastroDevedores</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="model\DAO\Model.DAO.Devedores.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
