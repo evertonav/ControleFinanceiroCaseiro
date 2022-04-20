@@ -15,76 +15,47 @@ uses
   FireDAC.Phys.PG, FireDAC.Phys.PGDef, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
   Fmx.Bind.Grid, System.Bindings.Outputs, Fmx.Bind.Editors,
   Data.Bind.Components, Data.Bind.Grid, Data.Bind.DBScope, FMX.Menus,
-  Controller, Model.Conexao.Feature;
+  Controller, Model.Conexao.Feature, uFrmCadastroPai;
 
 type
   TAcaoCadastro = (acInserir, acAtualizar);
 
-  TfrmCadastroDespesas = class(TForm)
-    qrPesquisarDespesas: TFDQuery;
-    qrPesquisarDespesasdata: TDateField;
-    qrPesquisarDespesasdescricao: TWideStringField;
-    qrPesquisarDespesasvalor: TBCDField;
-    BindSourceDB1: TBindSourceDB;
-    pmnAcoesGrade: TPopupMenu;
-    mniRemoverGasto: TMenuItem;
-    qrPesquisarDespesasid: TIntegerField;
-    tbcCadastroDespesas: TTabControl;
-    tbiCadastro: TTabItem;
-    rtcContainer: TRectangle;
-    lytContainerData: TLayout;
-    lytCampoData: TLayout;
-    lytData: TLayout;
-    lblData: TLabel;
-    dteData: TDateEdit;
-    lytContainerValor: TLayout;
-    lytTituloValor: TLayout;
-    lblValor: TLabel;
-    edtValor: TEdit;
-    lytContainerTipoDespesas: TLayout;
-    lytCampoTipoGasto: TLayout;
-    lblTipoGasto: TLabel;
-    ComboBox1: TComboBox;
-    SpeedButton1: TSpeedButton;
-    lytContainerBotoesAcao: TLayout;
-    btnCancelar: TSpeedButton;
-    imgCancelar: TImage;
-    btnSalvar: TSpeedButton;
-    imgSalvar: TImage;
-    lytContainerDescricao: TLayout;
-    lytTituloDescricao: TLayout;
-    lblDescricao: TLabel;
-    edtDescricao: TEdit;
-    tbiListagem: TTabItem;
-    rtcListagem: TRectangle;
+  TfrmCadastroDespesas = class(TfrmCadastroPai)
     lytContainerPesquisar: TLayout;
     edtPesquisa: TEdit;
     lblPesquisar: TLabel;
     btnPesquisar: TSpeedButton;
-    grdListagemDespesas: TGrid;
-    BindingsList1: TBindingsList;
-    LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
-    mniAlterarDespesa: TMenuItem;
     lytContainerCodigo: TLayout;
     lytCampoCodigo: TLayout;
     lytTituloCodigo: TLayout;
     lblCodigo: TLabel;
     edtCodigo: TEdit;
-    lytMenu: TLayout;
-    btnCadastro: TSpeedButton;
-    btnListagem: TSpeedButton;
-    rtcMenu: TRectangle;
-    lytContainer: TLayout;
-    rtcInformacoes: TRectangle;
-    lblInformacaoAcoesGrade: TLabel;
+    lytContainerData: TLayout;
+    lytCampoData: TLayout;
+    lytData: TLayout;
+    lblData: TLabel;
+    dteData: TDateEdit;
+    lytContainerDescricao: TLayout;
+    lytTituloDescricao: TLayout;
+    lblDescricao: TLabel;
+    edtDescricao: TEdit;
+    lytContainerTipoDespesas: TLayout;
+    lytCampoTipoGasto: TLayout;
+    lblTipoGasto: TLabel;
+    ComboBox1: TComboBox;
+    SpeedButton1: TSpeedButton;
+    lytContainerValor: TLayout;
+    lytTituloValor: TLayout;
+    lblValor: TLabel;
+    edtValor: TEdit;
     procedure btnSalvarClick(Sender: TObject);
-    procedure mniRemoverGastoClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure mniAlterarDespesaClick(Sender: TObject);
     procedure btnCadastroClick(Sender: TObject);
     procedure btnListagemClick(Sender: TObject);
+    procedure mniAlterarClick(Sender: TObject);
+    procedure mniRemoverClick(Sender: TObject);
   private
     { Private declarations }
     FConexao: IModelConexaoFeature;
@@ -141,7 +112,7 @@ procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);
 begin
   tbcCadastroDespesas.ActiveTab := tbiListagem;
 
-  qrPesquisarDespesas.close;
+  qrPesquisar.close;
 end;
 
 procedure TfrmCadastroDespesas.btnPesquisarClick(Sender: TObject);
@@ -191,10 +162,9 @@ end;
 
 procedure TfrmCadastroDespesas.FormCreate(Sender: TObject);
 begin
+  inherited;
+
   FAcaoCadastro := acInserir;
-  FConexao := TModelConexaoFeature.Criar;
-  //Gambiarra para diminuir código estudar live binding
-  qrPesquisarDespesas.Connection := TFDCustomConnection(FConexao.Conexao);
 
   AtivarAbaCadastro;
 end;
@@ -206,14 +176,14 @@ begin
   edtDescricao.Text := EmptyStr;
 end;
 
-procedure TfrmCadastroDespesas.mniAlterarDespesaClick(Sender: TObject);
+procedure TfrmCadastroDespesas.mniAlterarClick(Sender: TObject);
 begin
-  if not qrPesquisarDespesas.IsEmpty then
+  if not qrPesquisar.IsEmpty then
   begin
-    PreencherDadosAbaCadastro(qrPesquisarDespesasid.AsInteger,
-                              qrPesquisarDespesasdata.AsDateTime,
-                              qrPesquisarDespesasvalor.AsFloat,
-                              qrPesquisarDespesasdescricao.AsString);
+    PreencherDadosAbaCadastro(qrPesquisar.FieldByName('id').AsInteger,
+                              qrPesquisar.FieldByName('data').AsDateTime,
+                              qrPesquisar.FieldByName('valor').AsFloat,
+                              qrPesquisar.FieldByName('descricao').AsString);
 
     FAcaoCadastro := acAtualizar;
 
@@ -221,30 +191,30 @@ begin
   end;
 end;
 
-procedure TfrmCadastroDespesas.mniRemoverGastoClick(Sender: TObject);
+procedure TfrmCadastroDespesas.mniRemoverClick(Sender: TObject);
 begin
-  if not qrPesquisarDespesas.IsEmpty then
+  if not qrPesquisar.IsEmpty then
   begin
     TController
       .Criar
       .Gasto
-      .Id(qrPesquisarDespesas.FieldByName('ID').AsInteger)
+      .Id(qrPesquisar.FieldByName('ID').AsInteger)
       .Deletar;
 
-    qrPesquisarDespesas.Refresh;
+    qrPesquisar.Refresh;
   end;
 end;
 
 procedure TfrmCadastroDespesas.PesquisarDespesas;
-CONST CONST_TESTE = 'SELECT * FROM gasto ';
+CONST CONST_TESTE = 'SELECT id, data, descricao, valor FROM gasto ';
 begin
   //Estudar sobre live binding para fazer em poo
-  qrPesquisarDespesas.SQL.Clear;
-  qrPesquisarDespesas.SQL.Add(CONST_TESTE);
-  qrPesquisarDespesas.SQL.Add('where Upper(Descricao) like ');
-  qrPesquisarDespesas.SQL.Add('''' + '%' + UpperCase(edtPesquisa.Text.Trim) + '%' + '''');
-  qrPesquisarDespesas.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);
-  qrPesquisarDespesas.Open;
+  qrPesquisar.SQL.Clear;
+  qrPesquisar.SQL.Add(CONST_TESTE);
+  qrPesquisar.SQL.Add('where Upper(Descricao) like ');
+  qrPesquisar.SQL.Add('''' + '%' + UpperCase(edtPesquisa.Text.Trim) + '%' + '''');
+  qrPesquisar.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);
+  qrPesquisar.Open;
 end;
 
 procedure TfrmCadastroDespesas.PreencherDadosAbaCadastro(const pId: Integer;

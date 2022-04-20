@@ -12,7 +12,7 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
   Fmx.Bind.Grid, System.Bindings.Outputs, Fmx.Bind.Editors,
   Data.Bind.Components, Data.Bind.Grid, Data.Bind.DBScope, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Model.Conexao.Feature;
 
 type
   TfrmCadastroPai = class(TForm)
@@ -30,23 +30,26 @@ type
     rtcInformacoes: TRectangle;
     lblInformacaoAcoesGrade: TLabel;
     pmnAcoesGrade: TPopupMenu;
-    mniAlterarDespesa: TMenuItem;
-    mniRemoverGasto: TMenuItem;
+    mniAlterar: TMenuItem;
+    mniRemover: TMenuItem;
     qrPesquisar: TFDQuery;
-    qrPesquisarid: TIntegerField;
-    qrPesquisardata: TDateField;
-    qrPesquisardescricao: TWideStringField;
-    qrPesquisarvalor: TBCDField;
-    BindSourceDB1: TBindSourceDB;
-    BindingsList1: TBindingsList;
-    LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
     lytContainerBotoesAcao: TLayout;
     btnCancelar: TSpeedButton;
     imgCancelar: TImage;
     btnSalvar: TSpeedButton;
     imgSalvar: TImage;
+    bdsPesquisar: TBindSourceDB;
+    bdlPesquisar: TBindingsList;
+    LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
+    procedure btnCadastroClick(Sender: TObject);
+    procedure btnListagemClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    FConexao: IModelConexaoFeature;
+  protected
+    procedure AtivarAbaCadastro;
+    procedure AtivarAbaListagem;
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject);
@@ -64,6 +67,37 @@ implementation
 procedure TfrmCadastroPai.AdicionarParent(const pContainer: TFmxObject);
 begin
   Self.lytContainer.Parent := pContainer;
+end;
+
+procedure TfrmCadastroPai.AtivarAbaCadastro;
+begin
+  tbcCadastroDespesas.ActiveTab := tbiCadastro;
+end;
+
+procedure TfrmCadastroPai.AtivarAbaListagem;
+begin
+  tbcCadastroDespesas.ActiveTab := tbiListagem;
+
+  qrPesquisar.Close;
+end;
+
+procedure TfrmCadastroPai.btnCadastroClick(Sender: TObject);
+begin
+  AtivarAbaCadastro;
+end;
+
+procedure TfrmCadastroPai.btnListagemClick(Sender: TObject);
+begin
+  AtivarAbaListagem;
+end;
+
+procedure TfrmCadastroPai.FormCreate(Sender: TObject);
+begin
+  FConexao := TModelConexaoFeature.Criar;
+  //Gambiarra para diminuir código estudar live binding
+  qrPesquisar.Connection := TFDCustomConnection(FConexao.Conexao);
+
+  AtivarAbaCadastro;
 end;
 
 end.
