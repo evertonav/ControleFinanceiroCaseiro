@@ -3,18 +3,12 @@ unit AdicionarFrames;
 interface
 
 uses
-  FMX.Types;
+  FMX.Types,
+  AdicionarFramesPeriodo;
 
 type
   IAdicionarFrame = interface
     function Container(const pValor: TFmxObject): IAdicionarFrame;
-    function Executar: TFmxObject;
-  end;
-
-  IAdicionarFramePeriodo = interface
-    function DataInicial(const pValor: TDate): IAdicionarFramePeriodo;
-    function DataFinal(const pValor: TDate): IAdicionarFramePeriodo;
-    function Container(const pValor: TFmxObject): IAdicionarFramePeriodo;
     function Executar: TFmxObject;
   end;
 
@@ -33,21 +27,6 @@ type
     function Executar: TFmxObject; override;
   end;
 
-  TAdicionarFrameDespesasXSobrando = class(TInterfacedObject, IAdicionarFramePeriodo)
-  strict private
-    FContainer: TFmxObject;
-  private
-    FDataInicial: TDate;
-    FDataFinal: TDate;
-  public
-    function DataInicial(const pValor: TDate): IAdicionarFramePeriodo;
-    function DataFinal(const pValor: TDate): IAdicionarFramePeriodo;
-    function Container(const pValor: TFmxObject): IAdicionarFramePeriodo;
-    function Executar:  TFmxObject;
-
-    class function Criar: IAdicionarFramePeriodo;
-  end;
-
   TAdicionarFrameMenuAcessoRapido = class(TAdicionarFrame)
   public
     function Executar:  TFmxObject; override;
@@ -63,6 +42,11 @@ type
     function Executar: TFmxObject; override;
   end;
 
+  TAdicionarFrameDevedores = class(TAdicionarFrame)
+  public
+    function Executar: TFmxObject; override;
+  end;
+
 
 implementation
 
@@ -72,53 +56,8 @@ uses
   uFrmCadastroDespesas,
   Uteis,
   uFrameLogin,
-  uFrmCadastroDevedores;
-
-{ TAdicionarFrameDespesasXSobrando }
-
-function TAdicionarFrameDespesasXSobrando.Container(
-  const pValor: TFmxObject): IAdicionarFramePeriodo;
-begin
-  FContainer := pValor;
-
-  Result := Self;
-end;
-
-class function TAdicionarFrameDespesasXSobrando.Criar: IAdicionarFramePeriodo;
-begin
-  Result := Self.Create;
-end;
-
-function TAdicionarFrameDespesasXSobrando.DataFinal(
-  const pValor: TDate): IAdicionarFramePeriodo;
-begin
-  FDataFinal := pValor;
-
-  Result := Self;
-end;
-
-function TAdicionarFrameDespesasXSobrando.DataInicial(
-  const pValor: TDate): IAdicionarFramePeriodo;
-begin
-  FDataInicial := pValor;
-
-  Result := Self;
-end;
-
-function TAdicionarFrameDespesasXSobrando.Executar: TFmxObject;
-var
-  fttDespesasXSobrando: TFrameDespesasXSobrando;
-begin
-  fttDespesasXSobrando := TFrameDespesasXSobrando.Create(FContainer);
-
-  fttDespesasXSobrando.AdicionarParent(FContainer);
-  fttDespesasXSobrando.Name := fttDespesasXSobrando.ClassName + '_';
-  fttDespesasXSobrando.DataInicial := FDataInicial;
-  fttDespesasXSobrando.DataFinal := FDataFinal;
-  fttDespesasXSobrando.Atualizar;
-
-  Result := fttDespesasXSobrando;
-end;
+  uFrmCadastroDevedores,
+  uFrameDevedores;
 
 { TAdicionarFrameMenuAcessoRapido }
 
@@ -188,6 +127,20 @@ begin
   lFrmCadastroDevedores.Name := lFrmCadastroDevedores.ClassName + '_';
 
   Result := lFrmCadastroDevedores;
+end;
+
+{ TAdicionarFrameDevedores }
+
+function TAdicionarFrameDevedores.Executar: TFmxObject;
+var
+  lFrameDevedores: TFrame3;
+begin
+  lFrameDevedores := TFrame3.Create(FContainer);
+
+  lFrameDevedores.AdicionarParent(FContainer);
+  lFrameDevedores.Name := lFrameDevedores.ClassName + '_';
+
+  Result := lFrameDevedores;
 end;
 
 end.
