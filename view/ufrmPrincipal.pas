@@ -150,7 +150,7 @@ var
   lDataInicial: TDate;
   lDataFinal: TDate;
   lFrameDespesasXSobrando: TAdicionarFramePeriodo;
-  lFrameDevedores: TAdicionarFrame;
+  lFrameDevedores: TAdicionarFramePeriodo;
 begin
   lDataInicial := StartOfTheMonth(Now);
   lDataFinal := EndOfTheMonth(Now);
@@ -167,6 +167,7 @@ begin
     lFrameDespesasXSobrando.DataInicial(lDataInicial).DataFinal(lDataFinal);
 
     lFrameDevedores := TAdicionarFrameDevedores.Create;
+    lFrameDevedores.DataInicial(lDataInicial).DataFinal(lDataFinal);
 
     FContainerAdicionado := TAdicionarFrameConjunto
                               .Criar

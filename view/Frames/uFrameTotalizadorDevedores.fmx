@@ -1,4 +1,4 @@
-inherited Frame3: TFrame3
+inherited FrameTotalizadorDevedores: TFrameTotalizadorDevedores
   Align = Bottom
   Margins.Top = 10.000000000000000000
   Size.Width = 207.000000000000000000
@@ -32,7 +32,7 @@ inherited Frame3: TFrame3
         Text = 'Total'
         TabOrder = 2
       end
-      object lblValorSobrando: TLabel
+      object lblValorTotalDevedores: TLabel
         Align = Client
         StyledSettings = [Family, Style]
         Size.Width = 207.000000000000000000

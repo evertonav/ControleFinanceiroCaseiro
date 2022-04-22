@@ -33,10 +33,16 @@ type
     function Executar: TFmxObject; override;
   end;
 
+  TAdicionarFrameDevedores = class(TAdicionarFramePeriodo)
+  public
+    function Executar: TFmxObject; override;
+  end;
+
 implementation
 
 uses
-  uFrameDespesasXSobrando;
+  uFrameDespesasXSobrando,
+  uFrameTotalizadorDevedores;
 
 { TAdicionarFramePeriodo }
 
@@ -73,17 +79,34 @@ end;
 
 function TAdicionarFrameDespesasXSobrando.Executar: TFmxObject;
 var
-  fttDespesasXSobrando: TFrameDespesasXSobrando;
+  lfttDespesasXSobrando: TFrameDespesasXSobrando;
 begin
-  fttDespesasXSobrando := TFrameDespesasXSobrando.Create(FContainer);
+  lfttDespesasXSobrando := TFrameDespesasXSobrando.Create(FContainer);
 
-  fttDespesasXSobrando.AdicionarParent(FContainer);
-  fttDespesasXSobrando.Name := fttDespesasXSobrando.ClassName + '_';
-  fttDespesasXSobrando.DataInicial := FDataInicial;
-  fttDespesasXSobrando.DataFinal := FDataFinal;
-  fttDespesasXSobrando.Atualizar;
+  lfttDespesasXSobrando.AdicionarParent(FContainer);
+  lfttDespesasXSobrando.Name := lfttDespesasXSobrando.ClassName + '_';
+  lfttDespesasXSobrando.DataInicial := FDataInicial;
+  lfttDespesasXSobrando.DataFinal := FDataFinal;
+  lfttDespesasXSobrando.Atualizar;
 
-  Result := fttDespesasXSobrando;
+  Result := lfttDespesasXSobrando;
+end;
+
+{ TAdicionarFrameDevedores }
+
+function TAdicionarFrameDevedores.Executar: TFmxObject;
+var
+  lfttTotalizadorDevedores: TFrameTotalizadorDevedores;
+begin
+  lfttTotalizadorDevedores := TFrameTotalizadorDevedores.Create(FContainer);
+
+  lfttTotalizadorDevedores.AdicionarParent(FContainer);
+  lfttTotalizadorDevedores.Name := lfttTotalizadorDevedores.ClassName + '_';
+  lfttTotalizadorDevedores.DataInicial := FDataInicial;
+  lfttTotalizadorDevedores.DataFinal := FDataFinal;
+  lfttTotalizadorDevedores.Atualizar;
+
+  Result := lfttTotalizadorDevedores;
 end;
 
 end.

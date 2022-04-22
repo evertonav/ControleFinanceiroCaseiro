@@ -28,10 +28,11 @@ uses
   uFrmCadastroPai in 'view\uFrmCadastroPai.pas' {frmCadastroPai},
   uFrmCadastroDespesas in 'view\uFrmCadastroDespesas.pas' {frmCadastroDespesas},
   uFrmCadastroDevedores in 'view\uFrmCadastroDevedores.pas' {frmCadastroDevedores},
-  uFrameDevedores in 'view\Frames\uFrameDevedores.pas' {Frame3: TFrame},
+  uFrameTotalizadorDevedores in 'view\Frames\uFrameTotalizadorDevedores.pas' {FrameTotalizadorDevedores: TFrame},
   AdicionarFrames in 'view\Frames\AdicionarFrames.pas',
   AdicionarFramesConjunto in 'view\Frames\AdicionarFramesConjunto.pas',
-  AdicionarFramesPeriodo in 'view\Frames\AdicionarFramesPeriodo.pas';
+  AdicionarFramesPeriodo in 'view\Frames\AdicionarFramesPeriodo.pas',
+  Model.DAO.BuscarDevedores in 'model\DAO\Model.DAO.BuscarDevedores.pas';
 
 {$R *.res}
 

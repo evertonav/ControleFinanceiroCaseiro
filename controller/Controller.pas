@@ -7,6 +7,7 @@ uses
   Model.DAO.DespesasXSobrando,
   Model.DAO.BuscarDespesas,
   Model.DAO.Devedores,
+  Model.DAO.BuscarDevedores,
   Data.DB;
 
 type
@@ -15,6 +16,7 @@ type
     function DespesasXSobrando: IModelDAODespesasXSobrando;
     function BuscarDespesas(var pDataSet: TDataSet): IModelDAOBuscarDespesas;
     function Devedor: IModelDAODevedores;
+    function BuscarDevedores: IModelDAOBuscarDevedores;
   end;
 
   TController = class(TInterfacedObject, IController)
@@ -23,11 +25,13 @@ type
     FGasto: IModelDAOGasto;
     FBuscarDespesas: IModelDAOBuscarDespesas;
     FDevedor: IModelDAODevedores;
+    FBuscarDevedores: IModelDAOBuscarDevedores;
   public
     function Gasto: IModelDAOGasto;
     function DespesasXSobrando: IModelDAODespesasXSobrando;
     function BuscarDespesas(var pDataSet: TDataSet): IModelDAOBuscarDespesas;
     function Devedor: IModelDAODevedores;
+    function BuscarDevedores: IModelDAOBuscarDevedores;
 
     class function Criar: IController;
   end;
@@ -42,6 +46,14 @@ begin
     FBuscarDespesas := TModelDAOBuscarDespesas.Criar(pDataSet);
 
   Result := FBuscarDespesas;
+end;
+
+function TController.BuscarDevedores: IModelDAOBuscarDevedores;
+begin
+  if not Assigned(FBuscarDevedores) then
+    FBuscarDevedores := TModelDAOBuscarDevedores.Criar;
+
+  Result := FBuscarDevedores;
 end;
 
 class function TController.Criar: IController;

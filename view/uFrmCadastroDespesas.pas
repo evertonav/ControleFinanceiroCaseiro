@@ -58,7 +58,6 @@ type
     procedure mniRemoverClick(Sender: TObject);
   private
     { Private declarations }
-    FConexao: IModelConexaoFeature;
     FAcaoCadastro: TAcaoCadastro;
 
     procedure PreencherDadosAbaCadastro(const pId: Integer;

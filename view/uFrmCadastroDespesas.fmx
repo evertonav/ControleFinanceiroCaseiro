@@ -447,7 +447,6 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             Size.Width = 671.000000000000000000
             Size.Height = 430.000000000000000000
             TabOrder = 3
-            OnSetValue = nil
             Viewport.Width = 671.000000000000000000
             Viewport.Height = 430.000000000000000000
           end

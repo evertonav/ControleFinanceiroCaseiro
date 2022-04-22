@@ -39,14 +39,8 @@ type
 
   TAdicionarCadastroDevedores = class(TAdicionarFrame)
   public
-    function Executar: TFmxObject; override;
+    function Executar:  TFmxObject; override;
   end;
-
-  TAdicionarFrameDevedores = class(TAdicionarFrame)
-  public
-    function Executar: TFmxObject; override;
-  end;
-
 
 implementation
 
@@ -56,8 +50,7 @@ uses
   uFrmCadastroDespesas,
   Uteis,
   uFrameLogin,
-  uFrmCadastroDevedores,
-  uFrameDevedores;
+  uFrmCadastroDevedores;
 
 { TAdicionarFrameMenuAcessoRapido }
 
@@ -127,20 +120,6 @@ begin
   lFrmCadastroDevedores.Name := lFrmCadastroDevedores.ClassName + '_';
 
   Result := lFrmCadastroDevedores;
-end;
-
-{ TAdicionarFrameDevedores }
-
-function TAdicionarFrameDevedores.Executar: TFmxObject;
-var
-  lFrameDevedores: TFrame3;
-begin
-  lFrameDevedores := TFrame3.Create(FContainer);
-
-  lFrameDevedores.AdicionarParent(FContainer);
-  lFrameDevedores.Name := lFrameDevedores.ClassName + '_';
-
-  Result := lFrameDevedores;
 end;
 
 end.

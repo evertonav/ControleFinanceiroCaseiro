@@ -311,14 +311,15 @@
             <Form>frmCadastroDevedores</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="view\Frames\uFrameDevedores.pas">
-            <Form>Frame3</Form>
+        <DCCReference Include="view\Frames\uFrameTotalizadorDevedores.pas">
+            <Form>FrameTotalizadorDevedores</Form>
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="view\Frames\AdicionarFrames.pas"/>
         <DCCReference Include="view\Frames\AdicionarFramesConjunto.pas"/>
         <DCCReference Include="view\Frames\AdicionarFramesPeriodo.pas"/>
+        <DCCReference Include="model\DAO\Model.DAO.BuscarDevedores.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
