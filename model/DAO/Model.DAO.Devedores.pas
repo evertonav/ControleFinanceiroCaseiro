@@ -4,10 +4,11 @@ interface
 
 type
   IModelDAODevedores = interface
-    function IdPessoa(const pValor: integer): IModelDAODevedores;
+    function IdPessoaDevedora(const pValor: integer): IModelDAODevedores;
     function ValorEmprestado(const pValor: Double): IModelDAODevedores;
     function Pago(const pValor: SmallInt): IModelDAODevedores;
     function DataEmprestou(const pValor: TDateTime): IModelDAODevedores;
+    function IdUsuario(const pValor: integer): IModelDAODevedores;
 
     function Inserir: IModelDAODevedores;
   end;
@@ -16,14 +17,16 @@ type
   private
     FValorEmprestado: Double;
     FPago: Integer;
-    FIdPessoa: Integer;
+    FIdPessoaDevedora: Integer;
     FDataEmprestou: TDateTime;
+    FIdUsuario: Integer;
 
   public
-    function IdPessoa(const pValor: integer): IModelDAODevedores;
+    function IdPessoaDevedora(const pValor: integer): IModelDAODevedores;
     function ValorEmprestado(const pValor: Double): IModelDAODevedores;
     function Pago(const pValor: SmallInt): IModelDAODevedores;
     function DataEmprestou(const pValor: TDateTime): IModelDAODevedores;
+    function IdUsuario(const pValor: integer): IModelDAODevedores;
 
     function Inserir: IModelDAODevedores;
 
@@ -50,9 +53,17 @@ begin
   Result := Self;
 end;
 
-function TModelDAODevedores.IdPessoa(const pValor: integer): IModelDAODevedores;
+function TModelDAODevedores.IdPessoaDevedora(const pValor: integer): IModelDAODevedores;
 begin
-  FIdPessoa := pValor;
+  FIdPessoaDevedora := pValor;
+
+  Result := Self;
+end;
+
+function TModelDAODevedores.IdUsuario(
+  const pValor: integer): IModelDAODevedores;
+begin
+  FIdUsuario := pValor;
 
   Result := Self;
 end;
@@ -60,25 +71,28 @@ end;
 function TModelDAODevedores.Inserir: IModelDAODevedores;
 const
   CONST_INSERIR_DEVEDOR = 'INSERT INTO devedores( '
-                        + ' id_pessoa, '
+                        + ' id_pessoa_devedora, '
                         + ' valor_emprestado, '
                         + ' pago, '
-                        + ' data_emprestou)'
+                        + ' data_emprestou,'
+                        + ' id_usuario)'
                         + ' VALUES( '
-                        + ' :id_pessoa,'
+                        + ' :id_pessoa_devedora,'
                         + ' :valor_emprestado, '
                         + ' :pago, '
-                        + ' :data_emprestou)';
+                        + ' :data_emprestou, '
+                        + ' :id_usuario)';
 begin
   TModelQueryFeature
     .Criar
     .Query
     .FecharDataSet
     .AdicionarSQL(CONST_INSERIR_DEVEDOR)
-    .AdicionarParametro('id_pessoa', FIdPessoa)
+    .AdicionarParametro('id_pessoa_devedora', FIdPessoaDevedora)
     .AdicionarParametro('valor_emprestado', FValorEmprestado)
     .AdicionarParametro('pago', FPago)
     .AdicionarParametro('data_emprestou', FDataEmprestou)
+    .AdicionarParametro('id_usuario', FIdUsuario)
     .ExecutarSQL;
 
   Result := Self;

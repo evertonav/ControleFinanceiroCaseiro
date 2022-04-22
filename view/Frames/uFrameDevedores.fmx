@@ -1,0 +1,76 @@
+inherited Frame3: TFrame3
+  Align = Bottom
+  Margins.Top = 10.000000000000000000
+  Size.Width = 207.000000000000000000
+  Size.Height = 107.000000000000000000
+  object rtcContainer: TRectangle
+    Align = Client
+    Fill.Color = xFF181B23
+    Size.Width = 207.000000000000000000
+    Size.Height = 107.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    Stroke.Thickness = 2.000000000000000000
+    XRadius = 10.000000000000000000
+    YRadius = 10.000000000000000000
+    object Layout7: TLayout
+      Align = Client
+      Size.Width = 207.000000000000000000
+      Size.Height = 57.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Label3: TLabel
+        Align = Top
+        StyledSettings = [Family]
+        Size.Width = 207.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = xFF343849
+        TextSettings.HorzAlign = Center
+        Text = 'Total'
+        TabOrder = 2
+      end
+      object lblValorSobrando: TLabel
+        Align = Client
+        StyledSettings = [Family, Style]
+        Size.Width = 207.000000000000000000
+        Size.Height = 40.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 20.000000000000000000
+        TextSettings.FontColor = claGreen
+        TextSettings.HorzAlign = Center
+        Text = '$11.00'
+        TabOrder = 3
+      end
+    end
+    object lytMesAno: TLayout
+      Align = Top
+      Size.Width = 207.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object rtcMesAno: TRectangle
+        Align = Client
+        Fill.Color = xFF181B23
+        Size.Width = 207.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Kind = None
+        XRadius = 10.000000000000000000
+        YRadius = 10.000000000000000000
+      end
+      object lblDevedores: TLabel
+        Align = Center
+        StyledSettings = [Family]
+        TextSettings.Font.Size = 15.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'Devedores'
+        TabOrder = 2
+      end
+    end
+  end
+end

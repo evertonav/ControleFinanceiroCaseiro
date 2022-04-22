@@ -266,10 +266,6 @@
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="controller\Uteis.pas"/>
-        <DCCReference Include="view\uFrmCadastroDespesas.pas">
-            <Form>frmCadastroDespesas</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
         <DCCReference Include="view\ufrmPrincipal.pas">
             <Form>frmPrincipal</Form>
             <FormType>fmx</FormType>
@@ -292,19 +288,10 @@
         <DCCReference Include="controller\Controller.VariaveisGlobais.pas"/>
         <DCCReference Include="controller\Controller.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.BuscarDespesas.pas"/>
-        <DCCReference Include="view\AdicionarFrames.pas"/>
         <DCCReference Include="view\Frames\uFrameLogin.pas">
             <Form>Frame2</Form>
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="view\uFrmCadastroPai.pas">
-            <Form>frmCadastroPai</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
-        <DCCReference Include="view\uFrmCadastroDevedores.pas">
-            <Form>frmCadastroDevedores</Form>
-            <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="model\DAO\Model.DAO.Devedores.pas"/>
         <DCCReference Include="view\Frames\uFramePai.pas">
@@ -312,6 +299,26 @@
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="view\uFrmCadastroPai.pas">
+            <Form>frmCadastroPai</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="view\uFrmCadastroDespesas.pas">
+            <Form>frmCadastroDespesas</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="view\uFrmCadastroDevedores.pas">
+            <Form>frmCadastroDevedores</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="view\Frames\uFrameDevedores.pas">
+            <Form>Frame3</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="view\Frames\AdicionarFrames.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFramesConjunto.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFramesPeriodo.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

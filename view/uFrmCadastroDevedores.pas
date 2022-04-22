@@ -20,7 +20,7 @@ type
     lytContainerCodigo: TLayout;
     lytCampoCodigo: TLayout;
     lytTituloCodigo: TLayout;
-    lblCodigo: TLabel;
+    lblNomePessoaDevedora: TLabel;
     cbxPessoa: TComboBox;
     Layout1: TLayout;
     Layout2: TLayout;
@@ -37,9 +37,15 @@ type
     dteDataEmprestou: TDateEdit;
     SpeedButton1: TSpeedButton;
     FillRGBEffect1: TFillRGBEffect;
+    lytContainerPesquisar: TLayout;
+    edtPesquisa: TEdit;
+    lblPesquisar: TLabel;
+    btnPesquisar: TSpeedButton;
     procedure btnSalvarClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
   private
     { Private declarations }
+    procedure PesquisarDevedores;
   public
     { Public declarations }
   end;
@@ -50,9 +56,15 @@ var
 implementation
 
 uses
-  Controller;
+  Controller,
+  Controller.VariaveisGlobais;
 
 {$R *.fmx}
+
+procedure TfrmCadastroDevedores.btnPesquisarClick(Sender: TObject);
+begin
+  PesquisarDevedores;
+end;
 
 procedure TfrmCadastroDevedores.btnSalvarClick(Sender: TObject);
 begin
@@ -60,10 +72,11 @@ begin
      TController
        .Criar
        .Devedor
-       .IdPessoa(cbxPessoa.Tag)
+       .IdPessoaDevedora(1)
        .ValorEmprestado(StrToFloatDef(edtValorEmprestado.Text, 0))
        .Pago(chkPago.IsChecked.ToInteger)
        .DataEmprestou(dteDataEmprestou.Date)
+       .IdUsuario(TUsuarioLogado.gCodigoUsuario)
        .Inserir;
 
     ShowMessage('Devedor salvo com sucesso!');
@@ -72,6 +85,18 @@ begin
       ShowMessage(E.Message)
   end;
 
+end;
+
+procedure TfrmCadastroDevedores.PesquisarDevedores;
+CONST CONST_TESTE = 'SELECT * FROM devedores ';
+begin
+  //Estudar sobre live binding para fazer em poo
+  qrPesquisar.SQL.Clear;
+  qrPesquisar.SQL.Add(CONST_TESTE);
+  {qrPesquisar.SQL.Add('where Upper(Descricao) like ');
+  qrPesquisar.SQL.Add('''' + '%' + UpperCase(edtPesquisa.Text.Trim) + '%' + '''');
+  qrPesquisar.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);}
+  qrPesquisar.Open;
 end;
 
 end.
