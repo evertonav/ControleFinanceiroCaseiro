@@ -41,11 +41,22 @@ type
     edtPesquisa: TEdit;
     lblPesquisar: TLabel;
     btnPesquisar: TSpeedButton;
+    Layout7: TLayout;
+    Layout8: TLayout;
+    Layout9: TLayout;
+    Label2: TLabel;
+    edtId: TEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
+    procedure mniAlterarClick(Sender: TObject);
+    procedure mniRemoverClick(Sender: TObject);
   private
     { Private declarations }
     procedure PesquisarDevedores;
+    procedure PreencherDadosAbaCadastro(const pId: Integer;
+                                        const pDataEmprestou: TDate;
+                                        const pValorEmprestou: Double;
+                                        const pPago: Boolean);
   public
     { Public declarations }
   end;
@@ -69,15 +80,33 @@ end;
 procedure TfrmCadastroDevedores.btnSalvarClick(Sender: TObject);
 begin
   try
-     TController
-       .Criar
-       .Devedor
-       .IdPessoaDevedora(1)
-       .ValorEmprestado(StrToFloatDef(edtValorEmprestado.Text, 0))
-       .Pago(chkPago.IsChecked.ToInteger)
-       .DataEmprestou(dteDataEmprestou.Date)
-       .IdUsuario(TUsuarioLogado.gCodigoUsuario)
-       .Inserir;
+    case FAcaoCadastro of
+      acInserir:
+      begin
+        TController
+          .Criar
+          .Devedor
+          .IdPessoaDevedora(1)
+          .ValorEmprestado(StrToFloatDef(edtValorEmprestado.Text, 0))
+          .Pago(chkPago.IsChecked.ToInteger)
+          .DataEmprestou(dteDataEmprestou.Date)
+          .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+          .Inserir;
+      end;
+      acAtualizar:
+      begin
+        TController
+          .Criar
+          .Devedor
+          .Id(StrToIntDef(edtId.Text, 0))
+          .IdPessoaDevedora(1)
+          .ValorEmprestado(StrToFloatDef(edtValorEmprestado.Text, 0))
+          .Pago(chkPago.IsChecked.ToInteger)
+          .DataEmprestou(dteDataEmprestou.Date)
+          .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+          .Atualizar;
+      end;
+    end;
 
     ShowMessage('Devedor salvo com sucesso!');
   except
@@ -85,6 +114,17 @@ begin
       ShowMessage(E.Message)
   end;
 
+  FAcaoCadastro := acInserir;
+end;
+
+procedure TfrmCadastroDevedores.mniAlterarClick(Sender: TObject);
+begin
+  PreencherDadosAbaCadastro(qrPesquisar.FieldByName('id').AsInteger,
+                            qrPesquisar.FieldByName('DATA_EMPRESTOU').AsDateTime,
+                            qrPesquisar.FieldByName('valor_emprestado').AsFloat,
+                            Boolean(qrPesquisar.FieldByName('PAGO').AsInteger));
+
+  inherited
 end;
 
 procedure TfrmCadastroDevedores.PesquisarDevedores;
@@ -97,6 +137,29 @@ begin
   qrPesquisar.SQL.Add('''' + '%' + UpperCase(edtPesquisa.Text.Trim) + '%' + '''');
   qrPesquisar.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);}
   qrPesquisar.Open;
+end;
+
+procedure TfrmCadastroDevedores.PreencherDadosAbaCadastro(const pId: Integer;
+  const pDataEmprestou: TDate; const pValorEmprestou: Double; const pPago: Boolean);
+begin
+  edtId.Text := pId.ToString;
+  dteDataEmprestou.Date := pDataEmprestou;
+  edtValorEmprestado.Text := pValorEmprestou.ToString;
+  chkPago.IsChecked := pPago;
+end;
+
+procedure TfrmCadastroDevedores.mniRemoverClick(Sender: TObject);
+begin
+  if NOT qrPesquisar.IsEmpty then
+  begin
+    TController
+      .Criar
+      .Devedor
+      .Id(qrPesquisar.FieldByName('id').AsInteger)
+      .Deletar;
+
+    qrPesquisar.Refresh;
+  end;
 end;
 
 end.

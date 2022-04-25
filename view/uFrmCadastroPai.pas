@@ -15,6 +15,8 @@ uses
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Model.Conexao.Feature;
 
 type
+  TAcaoCadastro = (acInserir, acAtualizar);
+
   TfrmCadastroPai = class(TForm)
     lytContainer: TLayout;
     lytMenu: TLayout;
@@ -44,10 +46,14 @@ type
     procedure btnCadastroClick(Sender: TObject);
     procedure btnListagemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure mniAlterarClick(Sender: TObject);
   private
     { Private declarations }
     FConexao: IModelConexaoFeature;
   protected
+    FAcaoCadastro: TAcaoCadastro;
+
     procedure AtivarAbaCadastro;
     procedure AtivarAbaListagem;
   public
@@ -86,6 +92,11 @@ begin
   AtivarAbaCadastro;
 end;
 
+procedure TfrmCadastroPai.btnCancelarClick(Sender: TObject);
+begin
+  FAcaoCadastro := acInserir;
+end;
+
 procedure TfrmCadastroPai.btnListagemClick(Sender: TObject);
 begin
   AtivarAbaListagem;
@@ -94,10 +105,18 @@ end;
 procedure TfrmCadastroPai.FormCreate(Sender: TObject);
 begin
   FConexao := TModelConexaoFeature.Criar;
+  FAcaoCadastro := acInserir;
   //Gambiarra para diminuir código estudar live binding
   qrPesquisar.Connection := TFDCustomConnection(FConexao.Conexao);
 
   AtivarAbaCadastro;
+end;
+
+procedure TfrmCadastroPai.mniAlterarClick(Sender: TObject);
+begin
+  AtivarAbaCadastro;
+
+  FAcaoCadastro := acAtualizar;
 end;
 
 end.
