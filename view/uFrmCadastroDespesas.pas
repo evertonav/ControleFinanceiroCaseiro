@@ -18,12 +18,11 @@ uses
   Controller, Model.Conexao.Feature, uFrmCadastroPai;
 
 type
-  TAcaoCadastro = (acInserir, acAtualizar);
+  TTipoPesquisa = (tpDescricao, tpData);
 
   TfrmCadastroDespesas = class(TfrmCadastroPai)
     lytContainerPesquisar: TLayout;
-    edtPesquisa: TEdit;
-    lblPesquisar: TLabel;
+    edtPesquisar: TEdit;
     btnPesquisar: TSpeedButton;
     lytContainerCodigo: TLayout;
     lytCampoCodigo: TLayout;
@@ -48,28 +47,31 @@ type
     lytTituloValor: TLayout;
     lblValor: TLabel;
     edtValor: TEdit;
+    cbxPesquisar: TComboBox;
+    dteDataInicial: TDateEdit;
+    lblDataAte: TLabel;
+    dteDataFinal: TDateEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnCadastroClick(Sender: TObject);
     procedure btnListagemClick(Sender: TObject);
     procedure mniAlterarClick(Sender: TObject);
     procedure mniRemoverClick(Sender: TObject);
+    procedure cbxPesquisarChange(Sender: TObject);
   private
     { Private declarations }
-    FAcaoCadastro: TAcaoCadastro;
-
     procedure PreencherDadosAbaCadastro(const pId: Integer;
                                         const pData: TDate;
                                         const pValor: Double;
                                         const pDescricao: string);
 
     procedure LimparCadastro;
-    procedure PesquisarDespesas;
+    procedure PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
 
     procedure AtivarAbaCadastro;
 
+    procedure ConfigurarPesquisa(const pTipoPesquisa: TTipoPesquisa);
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject);
@@ -102,9 +104,9 @@ end;
 
 procedure TfrmCadastroDespesas.btnCancelarClick(Sender: TObject);
 begin
-  LimparCadastro;
+  inherited;
 
-  FAcaoCadastro := acInserir;
+  LimparCadastro;
 end;
 
 procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);
@@ -116,7 +118,7 @@ end;
 
 procedure TfrmCadastroDespesas.btnPesquisarClick(Sender: TObject);
 begin
-  PesquisarDespesas;
+  PesquisarDespesas(TTipoPesquisa(cbxPesquisar.ItemIndex));
 end;
 
 procedure TfrmCadastroDespesas.btnSalvarClick(Sender: TObject);
@@ -159,13 +161,19 @@ begin
   FAcaoCadastro := acInserir;
 end;
 
-procedure TfrmCadastroDespesas.FormCreate(Sender: TObject);
+procedure TfrmCadastroDespesas.cbxPesquisarChange(Sender: TObject);
 begin
-  inherited;
+  ConfigurarPesquisa(TTipoPesquisa(cbxPesquisar.ItemIndex));
+end;
 
-  FAcaoCadastro := acInserir;
+procedure TfrmCadastroDespesas.ConfigurarPesquisa(
+  const pTipoPesquisa: TTipoPesquisa);
+begin
+  edtPesquisar.Visible := pTipoPesquisa = tpDescricao;
 
-  AtivarAbaCadastro;
+  dteDataInicial.Visible := pTipoPesquisa = tpData;
+  dteDataFinal.Visible := pTipoPesquisa = tpData;
+  lblDataAte.Visible := pTipoPesquisa = tpData;
 end;
 
 procedure TfrmCadastroDespesas.LimparCadastro;
@@ -204,14 +212,27 @@ begin
   end;
 end;
 
-procedure TfrmCadastroDespesas.PesquisarDespesas;
+procedure TfrmCadastroDespesas.PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
 CONST CONST_TESTE = 'SELECT id, data, descricao, valor FROM gasto ';
 begin
   //Estudar sobre live binding para fazer em poo
   qrPesquisar.SQL.Clear;
   qrPesquisar.SQL.Add(CONST_TESTE);
-  qrPesquisar.SQL.Add('where Upper(Descricao) like ');
-  qrPesquisar.SQL.Add('''' + '%' + UpperCase(edtPesquisa.Text.Trim) + '%' + '''');
+
+  case pTipoPesquisa of
+    tpDescricao:
+    begin
+      qrPesquisar.SQL.Add('where Upper(Descricao) like ');
+      qrPesquisar.SQL.Add('''' + '%' + UpperCase(edtPesquisar.Text.Trim) + '%' + '''');
+    end;
+    tpData:
+    begin
+      qrPesquisar.SQL.Add('where data between ');
+      qrPesquisar.SQL.Add('''' + DateToStr(dteDataInicial.Date)  + '''');
+      qrPesquisar.SQL.Add(' AND ' + '''' + DateToStr(dteDataFinal.Date)  + '''');
+    end;
+  end;
+
   qrPesquisar.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);
   qrPesquisar.Open;
 end;
