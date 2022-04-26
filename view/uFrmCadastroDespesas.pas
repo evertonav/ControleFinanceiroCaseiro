@@ -39,10 +39,10 @@ type
     lblDescricao: TLabel;
     edtDescricao: TEdit;
     lytContainerTipoDespesas: TLayout;
-    lytCampoTipoGasto: TLayout;
-    lblTipoGasto: TLabel;
-    ComboBox1: TComboBox;
-    SpeedButton1: TSpeedButton;
+    lytCampoTipoDespesa: TLayout;
+    lblTipoDespesa: TLabel;
+    cbxTipoDespesa: TComboBox;
+    btnTipoDespesa: TSpeedButton;
     lytContainerValor: TLayout;
     lytTituloValor: TLayout;
     lblValor: TLabel;
@@ -83,7 +83,8 @@ var
 implementation
 
 USES
-  Controller.VariaveisGlobais;
+  Controller.VariaveisGlobais,
+  System.DateUtils;
 
 {$R *.fmx}
 
@@ -113,7 +114,10 @@ procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);
 begin
   tbcCadastroDespesas.ActiveTab := tbiListagem;
 
-  qrPesquisar.close;
+  ConfigurarPesquisa(tpData);
+  dteDataInicial.Date := StartOfTheMonth(Now);
+  dteDataFinal.Date := EndOfTheMonth(Now);
+  PesquisarDespesas(tpData);
 end;
 
 procedure TfrmCadastroDespesas.btnPesquisarClick(Sender: TObject);
