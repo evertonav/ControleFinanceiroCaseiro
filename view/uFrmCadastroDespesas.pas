@@ -59,6 +59,8 @@ type
     procedure mniAlterarClick(Sender: TObject);
     procedure mniRemoverClick(Sender: TObject);
     procedure cbxPesquisarChange(Sender: TObject);
+    procedure edtValorKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
   private
     { Private declarations }
     procedure PreencherDadosAbaCadastro(const pId: Integer;
@@ -84,7 +86,8 @@ implementation
 
 USES
   Controller.VariaveisGlobais,
-  System.DateUtils;
+  System.DateUtils,
+  Uteis;
 
 {$R *.fmx}
 
@@ -178,6 +181,12 @@ begin
   dteDataInicial.Visible := pTipoPesquisa = tpData;
   dteDataFinal.Visible := pTipoPesquisa = tpData;
   lblDataAte.Visible := pTipoPesquisa = tpData;
+end;
+
+procedure TfrmCadastroDespesas.edtValorKeyUp(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+  TMask.MaskFloat(TEdit(Sender), '#0.00');
 end;
 
 procedure TfrmCadastroDespesas.LimparCadastro;

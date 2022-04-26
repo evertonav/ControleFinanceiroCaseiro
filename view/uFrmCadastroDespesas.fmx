@@ -433,6 +433,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
               Size.Width = 300.000000000000000000
               Size.Height = 23.000000000000000000
               Size.PlatformDefault = False
+              OnKeyUp = edtValorKeyUp
             end
           end
         end

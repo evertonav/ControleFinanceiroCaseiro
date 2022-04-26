@@ -3,7 +3,8 @@ unit Uteis;
 interface
 
 uses
-  FMX.Types;
+  FMX.Types,
+  FMX.Edit;
 
 type
   TAdicionarFrame = class
@@ -13,7 +14,17 @@ type
                                    const pNomeObjetoCriado: string);
   end;
 
+  TMask = class
+  public
+    class procedure MaskFloat(const pEdit: TEdit;
+                              const pMask: string);
+  end;
+
 implementation
+
+uses
+  System.SysUtils,
+  FMX.Forms;
 
 { TAdicionarFrame }
 
@@ -24,6 +35,27 @@ begin
 
   pObjetoCriar.Parent := pContainer;
   pObjetoCriar.Name := pNomeObjetoCriado;
+end;
+
+{ TMask }
+
+class procedure TMask.MaskFloat(const pEdit: TEdit; const pMask: string);
+var
+  lStrAux: string;
+  lFloatAux: Single;
+begin
+  lStrAux := pEdit.Text;
+
+  if lStrAux.IsEmpty then
+    lStrAux := '0,00';
+
+  lStrAux := lStrAux.Replace('.','', [rfReplaceAll]);
+  lStrAux := lStrAux.Replace(',','', [rfReplaceAll]);
+
+  lFloatAux := StrToFloatDef(lStrAux, 0)/100;
+
+  TEdit(pEdit).Text := FormatFloat(pMask, lFloatAux);
+  TEdit(pEdit).GoToTextEnd;
 end;
 
 end.
