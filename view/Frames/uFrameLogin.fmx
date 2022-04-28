@@ -1,4 +1,4 @@
-inherited Frame2: TFrame2
+inherited FrameLogin: TFrameLogin
   Size.Width = 573.000000000000000000
   Size.Height = 333.000000000000000000
   object Layout1: TLayout

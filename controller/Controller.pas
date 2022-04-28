@@ -3,35 +3,39 @@ unit Controller;
 interface
 
 uses
-  Model.DAO.Gasto,
+  Model.DAO.Despesas,
   Model.DAO.DespesasXSobrando,
   Model.DAO.BuscarDespesas,
   Model.DAO.Devedores,
   Model.DAO.BuscarDevedores,
+  Model.DAO.BuscarPessoas,
   Data.DB;
 
 type
   IController = interface
-    function Gasto: IModelDAOGasto;
+    function Despesas: IModelDAODespesas;
     function DespesasXSobrando: IModelDAODespesasXSobrando;
     function BuscarDespesas(var pDataSet: TDataSet): IModelDAOBuscarDespesas;
     function Devedor: IModelDAODevedores;
     function BuscarDevedores: IModelDAOBuscarDevedores;
+    function BuscarPessoas: IModelDAOBuscarPessoas;
   end;
 
   TController = class(TInterfacedObject, IController)
   private
     FDespesasXSobrando: IModelDAODespesasXSobrando;
-    FGasto: IModelDAOGasto;
+    FDespesas: IModelDAODespesas;
     FBuscarDespesas: IModelDAOBuscarDespesas;
     FDevedor: IModelDAODevedores;
     FBuscarDevedores: IModelDAOBuscarDevedores;
+    FBuscarPessoa: IModelDAOBuscarPessoas;
   public
-    function Gasto: IModelDAOGasto;
+    function Despesas: IModelDAODespesas;
     function DespesasXSobrando: IModelDAODespesasXSobrando;
     function BuscarDespesas(var pDataSet: TDataSet): IModelDAOBuscarDespesas;
     function Devedor: IModelDAODevedores;
     function BuscarDevedores: IModelDAOBuscarDevedores;
+    function BuscarPessoas: IModelDAOBuscarPessoas;
 
     class function Criar: IController;
   end;
@@ -56,6 +60,14 @@ begin
   Result := FBuscarDevedores;
 end;
 
+function TController.BuscarPessoas: IModelDAOBuscarPessoas;
+begin
+  if not Assigned(FBuscarPessoa) then
+    FBuscarPessoa := TModelDAOBuscarPessoas.Criar;
+
+  Result := FBuscarPessoa;
+end;
+
 class function TController.Criar: IController;
 begin
   Result := Self.Create;
@@ -77,12 +89,12 @@ begin
   Result := FDevedor;
 end;
 
-function TController.Gasto: IModelDAOGasto;
+function TController.Despesas: IModelDAODespesas;
 begin
-  if not Assigned(FGasto) then
-    FGasto := TModelDAOGasto.Criar;
+  if not Assigned(FDespesas) then
+    FDespesas := TModelDAODespesas.Criar;
 
-  Result := FGasto;
+  Result := FDespesas;
 end;
 
 end.

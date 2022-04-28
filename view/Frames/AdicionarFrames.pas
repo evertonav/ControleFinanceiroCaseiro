@@ -98,9 +98,9 @@ end;
 
 function TAdicionarFrameLogin.Executar: TFmxObject;
 var
-  lFrameLogin: TFrame2;
+  lFrameLogin: TFrameLogin;
 begin
-  lFrameLogin := TFrame2.Create(FContainer);
+  lFrameLogin := TFrameLogin.Create(FContainer);
 
   lFrameLogin.AdicionarParent(FContainer);
   lFrameLogin.Name := lFrameLogin.ClassName + '_';

@@ -51,6 +51,8 @@ type
     dteDataInicial: TDateEdit;
     lblDataAte: TLabel;
     dteDataFinal: TDateEdit;
+    lytPago: TLayout;
+    chkPago: TCheckBox;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
@@ -66,7 +68,8 @@ type
     procedure PreencherDadosAbaCadastro(const pId: Integer;
                                         const pData: TDate;
                                         const pValor: Double;
-                                        const pDescricao: string);
+                                        const pDescricao: string;
+                                        const pPago: SmallInt);
 
     procedure LimparCadastro;
     procedure PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
@@ -136,23 +139,25 @@ begin
       begin
          TController
            .Criar
-           .Gasto
+           .Despesas
            .IdUsuario(TUsuarioLogado.gCodigoUsuario)
            .Data(dteData.Date)
            .Descricao(edtDescricao.Text)
            .Valor(StrToFloatDef(edtValor.Text, 0))
+           .Pago(SmallInt(chkPago.IsChecked))
            .Inserir;
       end;
       acAtualizar:
       begin
         TController
           .Criar
-          .Gasto
+          .Despesas
           .Id(edtCodigo.Text.ToInteger)
           .IdUsuario(TUsuarioLogado.gCodigoUsuario)
           .Data(dteData.Date)
           .Descricao(edtDescricao.Text)
           .Valor(StrToFloatDef(edtValor.Text, 0))
+          .Pago(SmallInt(chkPago.IsChecked))
           .Atualizar;
       end;
     end;
@@ -194,6 +199,7 @@ begin
   dteData.Date := Now;
   edtValor.Text := EmptyStr;
   edtDescricao.Text := EmptyStr;
+  chkPago.IsChecked := False;
 end;
 
 procedure TfrmCadastroDespesas.mniAlterarClick(Sender: TObject);
@@ -203,7 +209,8 @@ begin
     PreencherDadosAbaCadastro(qrPesquisar.FieldByName('id').AsInteger,
                               qrPesquisar.FieldByName('data').AsDateTime,
                               qrPesquisar.FieldByName('valor').AsFloat,
-                              qrPesquisar.FieldByName('descricao').AsString);
+                              qrPesquisar.FieldByName('descricao').AsString,
+                              qrPesquisar.FieldByName('pago').AsInteger);
 
     FAcaoCadastro := acAtualizar;
 
@@ -217,7 +224,7 @@ begin
   begin
     TController
       .Criar
-      .Gasto
+      .Despesas
       .Id(qrPesquisar.FieldByName('ID').AsInteger)
       .Deletar;
 
@@ -226,7 +233,7 @@ begin
 end;
 
 procedure TfrmCadastroDespesas.PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
-CONST CONST_TESTE = 'SELECT id, data, descricao, valor FROM gasto ';
+CONST CONST_TESTE = 'SELECT id, data, descricao, valor, pago FROM gasto ';
 begin
   //Estudar sobre live binding para fazer em poo
   qrPesquisar.SQL.Clear;
@@ -251,12 +258,14 @@ begin
 end;
 
 procedure TfrmCadastroDespesas.PreencherDadosAbaCadastro(const pId: Integer;
-  const pData: TDate; const pValor: Double; const pDescricao: string);
+  const pData: TDate; const pValor: Double; const pDescricao: string;
+  const pPago: SmallInt);
 begin
   edtCodigo.Text := pId.ToString;
   dteData.Date := pData;
   edtValor.Text := FormatFloat('##.##', pValor);
   edtDescricao.Text := pDescricao;
+  chkPago.IsChecked := Boolean(pPago);
 end;
 
 end.

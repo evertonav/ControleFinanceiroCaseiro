@@ -38,11 +38,17 @@ type
     function Executar: TFmxObject; override;
   end;
 
+  TAdicionarFrameDespesasPagas = class(TAdicionarFramePeriodo)
+  public
+    function Executar: TFmxObject; override;
+  end;
+
 implementation
 
 uses
   uFrameDespesasXSobrando,
-  uFrameTotalizadorDevedores;
+  uFrameTotalizadorDevedores,
+  uFrameDespesasPagas;
 
 { TAdicionarFramePeriodo }
 
@@ -107,6 +113,23 @@ begin
   lfttTotalizadorDevedores.Atualizar;
 
   Result := lfttTotalizadorDevedores;
+end;
+
+{ TAdicionarFrameDespesasPagas }
+
+function TAdicionarFrameDespesasPagas.Executar: TFmxObject;
+var
+  lfttDespesasPagas: TFrameDespesasPagas;
+begin
+  lfttDespesasPagas := TFrameDespesasPagas.Create(FContainer);
+
+  lfttDespesasPagas.AdicionarParent(FContainer);
+  lfttDespesasPagas.Name := lfttDespesasPagas.ClassName + '_';
+  lfttDespesasPagas.DataInicial := FDataInicial;
+  lfttDespesasPagas.DataFinal := FDataFinal;
+  lfttDespesasPagas.Atualizar;
+
+  Result := lfttDespesasPagas;
 end;
 
 end.

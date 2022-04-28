@@ -3,10 +3,13 @@ unit Model.DAO.BuscarDespesas;
 interface
 
 uses
-  Data.DB;
+  Data.DB,
+  Model.Query.Feature;
 
 type
   IModelDAOBuscarDespesas = interface
+    function Pago(const pValor: SmallInt): IModelDAOBuscarDespesas;
+    function IdUsuario(const pValor: Integer): IModelDAOBuscarDespesas;
     function Descricao(const pValor: string): IModelDAOBuscarDespesas;
     function DataInicial(const pValor: TDateTime): IModelDAOBuscarDespesas;
     function DataFinal(const pValor: TDateTime): IModelDAOBuscarDespesas;
@@ -17,13 +20,17 @@ type
   private
     FDataInicial: TDate;
     FDataFinal: TDate;
-    FDataSet: TDataSet;
     FDescricao: string;
+    FQuery: IModelQueryFeature;
+    FIdUsuario: Integer;
+    FPago: SmallInt;
 
     function GetWhereSQL: string;
   public
     constructor Create(var pDataSet: TDataSet);
 
+    function Pago(const pValor: SmallInt): IModelDAOBuscarDespesas;
+    function IdUsuario(const pValor: Integer): IModelDAOBuscarDespesas;
     function Descricao(const pValor: string): IModelDAOBuscarDespesas;
     function DataInicial(const pValor: TDateTime): IModelDAOBuscarDespesas;
     function DataFinal(const pValor: TDateTime): IModelDAOBuscarDespesas;
@@ -35,7 +42,6 @@ type
 implementation
 
 uses
-  Model.Query.Feature,
   System.SysUtils,
   Controller.Helper;
 
@@ -43,11 +49,14 @@ uses
 
 constructor TModelDAOBuscarDespesas.Create(var pDataSet: TDataSet);
 begin
-  FDataSet := pDataSet;
+  FQuery :=  TModelQueryFeature.Criar;
+  pDataSet := FQuery.Query.GetQuery;
 
   FDataInicial := 0;
   FDataFinal := 0;
   FDescricao := EmptyStr;
+  FIdUsuario := 0;
+  FPago := -1;
 end;
 
 class function TModelDAOBuscarDespesas.Criar(var pDataSet: TDataSet): IModelDAOBuscarDespesas;
@@ -83,26 +92,36 @@ function TModelDAOBuscarDespesas.Executar: IModelDAOBuscarDespesas;
 const CONST_BUSCAR_DESPESAS = 'SELECT'
                             + '  ID, '
                             + '  DESCRICAO, '
+                            + '  Data, '
                             + '  VALOR '
                             + 'FROM '
                             + '  gasto ';
 begin
-  FDataSet := TModelQueryFeature
-              .Criar
-              .Query
-              .FecharDataSet
-              .AdicionarSQL(CONST_BUSCAR_DESPESAS + GetWhereSQL)
-//              .AdicionarParametro('DataInicial', FDataInicial)
-//              .AdicionarParametro('DataFinal', FDataFinal)
-              .AbrirDataSet
-              .GetQuery;
+  FQuery
+    .Query
+    .FecharDataSet
+    .AdicionarSQL(CONST_BUSCAR_DESPESAS + GetWhereSQL)
+    .AbrirDataSet;
 
   Result := Self;
 end;
 
 function TModelDAOBuscarDespesas.GetWhereSQL: string;
 begin
-  Result := ' WHERE 1 = 1';
+  Result := ' WHERE 1 = 1 ';
+
+  if FPago <> -1 then
+  begin
+    Result := Result
+            + ' AND pago = ' + FPago.ToString;
+  end;
+
+  if FIdUsuario > 0 then
+  begin
+    Result := Result
+            + ' AND id_usuario = '
+            + FIdUsuario.ToString;
+  end;
 
   if FDescricao.Trim <> EmptyStr then
     Result := Result + ' AND Descricao like ' + '''' + '%' + FDescricao + '%' + '''';
@@ -111,10 +130,27 @@ begin
   and (FDataFinal <> 0) then
   begin
     Result := Result
-            + 'data between '
+            + ' AND data between '
             + '''' + FDataInicial.FormatoDataIngles + ''''
+            + ' AND '
             + '''' + FDataFinal.FormatoDataIngles + '''';
   end;
+end;
+
+function TModelDAOBuscarDespesas.IdUsuario(
+  const pValor: Integer): IModelDAOBuscarDespesas;
+begin
+  FIdUsuario := pValor;
+
+  Result := Self;
+end;
+
+function TModelDAOBuscarDespesas.Pago(
+  const pValor: SmallInt): IModelDAOBuscarDespesas;
+begin
+  FPago := pValor;
+
+  Result := Self;
 end;
 
 end.

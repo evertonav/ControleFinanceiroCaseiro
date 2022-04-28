@@ -5,10 +5,11 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
-  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Objects, System.Generics.Collections;
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Objects,
+  System.Generics.Collections, AdicionarFramesPeriodo;
 
 type
-  TMenu = (mnMenuInterativoOuTotalizados,
+  TMenu = (mnPrincipal,
            mnAdicaoGastos,
            mnLogin,
            mnAdicaoDevedores,
@@ -52,11 +53,12 @@ type
     procedure btnMostrarMenuEsquerdaClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnAdicionarDevedoresClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
     FContainerAdicionado: TFmxObject;
 
-    procedure MostrarMenuInterativoOuTotalizador;
+    procedure MostrarMenuPrincipal;
     procedure MostrarDevedores;
     procedure MostrarLogin;
     procedure MostrarAdicaoGastos;
@@ -75,11 +77,14 @@ implementation
 
 uses
   AdicionarFrames,
-  AdicionarFramesPeriodo,
   AdicionarFramesConjunto,
   Controller.VariaveisGlobais,
   Controller,
   System.DateUtils;
+
+const
+  CONST_ALTURA_FORM = 500;
+  CONST_LARGURA_FORM = 870;
 
 {$R *.fmx}
 
@@ -91,7 +96,7 @@ end;
 procedure TfrmPrincipal.ConfigurarMenuSelecionado(const pMenu: TMenu);
 begin
   rtcAdicionarDespesas.Visible := pMenu = mnAdicaoGastos;
-  rtcPrincipal.Visible := pMenu = mnMenuInterativoOuTotalizados;
+  rtcPrincipal.Visible := pMenu = mnPrincipal;
   rtcAdicionarDevedores.Visible := pMenu = mnAdicaoDevedores;
 end;
 
@@ -100,16 +105,18 @@ begin
   if Assigned(FContainerAdicionado) then
     FreeAndNil(FContainerAdicionado);
 
-  lytContainerCentroTela.Visible := (pMenu = mnMenuInterativoOuTotalizados)
-                                 or (pMenu = mnFrameDevedores);
+  lytContainerCentroTela.Visible := (pMenu = mnFrameDevedores);
 
   lytContainerTelaInteira.Visible := (pMenu = mnAdicaoGastos)
-                                  or (pMenu = mnAdicaoDevedores);
+                                  or (pMenu = mnAdicaoDevedores)
+                                  or (pMenu = mnPrincipal);
+
+  lytContainerTelaInteira.Visible := True;
 
   ConfigurarMenuSelecionado(pMenu);
 
   case pMenu of
-    mnMenuInterativoOuTotalizados: MostrarMenuInterativoOuTotalizador;
+    mnPrincipal: MostrarMenuPrincipal;
     mnAdicaoGastos: MostrarAdicaoGastos;
     mnLogin: MostrarLogin;
     mnAdicaoDevedores: MostrarAdicaoDevedores;
@@ -122,7 +129,19 @@ begin
   TUsuarioLogado.gCodigoUsuario := 1;
   TUsuarioLogado.gValorRenda := 3500;
 
-  ConfigurarMostrarMenus(mnMenuInterativoOuTotalizados);
+  ConfigurarMostrarMenus(mnPrincipal);
+
+  frmPrincipal.Height := CONST_ALTURA_FORM;
+  frmPrincipal.Width := CONST_LARGURA_FORM;
+end;
+
+procedure TfrmPrincipal.FormResize(Sender: TObject);
+begin
+  if frmPrincipal.Height < CONST_ALTURA_FORM then
+    frmPrincipal.Height := CONST_ALTURA_FORM;
+
+  if frmPrincipal.Width < CONST_LARGURA_FORM then
+    frmPrincipal.Width := CONST_LARGURA_FORM;
 end;
 
 procedure TfrmPrincipal.MostrarAdicaoDevedores;
@@ -145,12 +164,13 @@ begin
   FContainerAdicionado := TAdicionarFrameLogin.Criar.Container(Self).Executar;
 end;
 
-procedure TfrmPrincipal.MostrarMenuInterativoOuTotalizador;
+procedure TfrmPrincipal.MostrarMenuPrincipal;
 var
   lDataInicial: TDate;
   lDataFinal: TDate;
   lFrameDespesasXSobrando: TAdicionarFramePeriodo;
   lFrameDevedores: TAdicionarFramePeriodo;
+  lFrameDespesasPagas: TAdicionarFramePeriodo;
 begin
   lDataInicial := StartOfTheMonth(Now);
   lDataFinal := EndOfTheMonth(Now);
@@ -169,11 +189,15 @@ begin
     lFrameDevedores := TAdicionarFrameDevedores.Create;
     lFrameDevedores.DataInicial(lDataInicial).DataFinal(lDataFinal);
 
+    lFrameDespesasPagas := TAdicionarFrameDespesasPagas.Create;
+    lFrameDespesasPagas.DataInicial(lDataInicial).DataFinal(lDataFinal);
+
     FContainerAdicionado := TAdicionarFrameConjunto
                               .Criar
                               .AdicionarTela(lFrameDespesasXSobrando)
                               .AdicionarTela(lFrameDevedores)
-                              .Container(lytContainerCentroTela)
+                              .AdicionarTela(lFrameDespesasPagas)
+                              .Container(lytContainerTelaInteira)
                               .Executar;
   end
   else
@@ -187,7 +211,7 @@ end;
 
 procedure TfrmPrincipal.btnPrincipalClick(Sender: TObject);
 begin
-  ConfigurarMostrarMenus(mnMenuInterativoOuTotalizados);
+  ConfigurarMostrarMenus(mnPrincipal);
 end;
 
 procedure TfrmPrincipal.btnAdicionarDevedoresClick(Sender: TObject);

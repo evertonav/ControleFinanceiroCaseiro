@@ -7,6 +7,7 @@ type
     function IdUsuario(const pValor: integer): IModelDAODespesasXSobrando;
     function DataInicial(const pValor: TDateTime): IModelDAODespesasXSobrando;
     function DataFinal(const pValor: TDateTime): IModelDAODespesasXSobrando;
+    function Pago(const pValor: SmallInt): IModelDAODespesasXSobrando;
 
     function TotalDespesas: Double;
     function TotalSobrando: Double; overload;
@@ -16,15 +17,21 @@ type
   TModelDAODespesasXSobrando = class(TInterfacedObject,
                                      IModelDAODespesasXSobrando)
   private
-    FDataInicial: TDateTime;
-    FDataFinal: TDateTime;
+    FDataInicial: TDate;
+    FDataFinal: TDate;
     FIdUsuario: Integer;
+    FPago: SmallInt;
+
+    function GetWhereSQL: string;
   public
+    constructor Create;
+
     class function Criar: IModelDAODespesasXSobrando;
 
     function IdUsuario(const pValor: integer): IModelDAODespesasXSobrando;
     function DataInicial(const pValor: TDateTime): IModelDAODespesasXSobrando;
     function DataFinal(const pValor: TDateTime): IModelDAODespesasXSobrando;
+    function Pago(const pValor: SmallInt): IModelDAODespesasXSobrando;
 
     function TotalDespesas: Double;
     function TotalSobrando: Double; overload;
@@ -35,9 +42,19 @@ implementation
 
 uses
   Model.Query.Feature,
-  Controller.VariaveisGlobais;
+  Controller.VariaveisGlobais,
+  System.SysUtils,
+  Controller.Helper;
 
 { TModelDAODespesasXSobrando }
+
+constructor TModelDAODespesasXSobrando.Create;
+begin
+  FDataInicial := 0;
+  FDataFinal := 0;
+  FIdUsuario := 0;
+  FPago := -1;
+end;
 
 class function TModelDAODespesasXSobrando.Criar: IModelDAODespesasXSobrando;
 begin
@@ -60,10 +77,46 @@ begin
   Result := Self;
 end;
 
+function TModelDAODespesasXSobrando.GetWhereSQL: string;
+begin
+  Result := ' WHERE 1 = 1 ';
+
+  if FPago <> -1 then
+  begin
+    Result := Result
+            + ' AND pago = ' + FPago.ToString;
+  end;
+
+  if FIdUsuario > 0 then
+  begin
+    Result := Result
+            + ' AND id_usuario = '
+            + FIdUsuario.ToString;
+  end;
+
+  if (FDataInicial <> 0)
+  and (FDataFinal <> 0) then
+  begin
+    Result := Result
+            + ' AND data between '
+            + '''' + FDataInicial.FormatoDataIngles + ''''
+            + ' AND '
+            + '''' + FDataFinal.FormatoDataIngles + '''';
+  end;
+end;
+
 function TModelDAODespesasXSobrando.IdUsuario(
   const pValor: integer): IModelDAODespesasXSobrando;
 begin
   FIdUsuario := pValor;
+
+  Result := Self;
+end;
+
+function TModelDAODespesasXSobrando.Pago(
+  const pValor: SmallInt): IModelDAODespesasXSobrando;
+begin
+  FPago := pValor;
 
   Result := Self;
 end;
@@ -73,18 +126,18 @@ const CONST_SOMATORIO_DESPESA_PERIODO = ' select '
                                       + '   SUM(VALOR) '
                                       + ' from '
                                       + '   gasto '
-                                      + ' where data between :DataInicial'
+                                      {+ ' where data between :DataInicial'
                                       + '   and :DataFinal'
-                                      + '   and id_usuario = :id_usuario';
+                                      + '   and id_usuario = :id_usuario'};
 begin
   Result := TModelQueryFeature
                .Criar
                .Query
                .FecharDataSet
-               .AdicionarSQL(CONST_SOMATORIO_DESPESA_PERIODO)
-               .AdicionarParametro('DataInicial', FDataInicial)
+               .AdicionarSQL(CONST_SOMATORIO_DESPESA_PERIODO + GetWhereSQL)
+               {.AdicionarParametro('DataInicial', FDataInicial)
                .AdicionarParametro('DataFinal', FDataFinal)
-               .AdicionarParametro('id_usuario', FIdUsuario)
+               .AdicionarParametro('id_usuario', FIdUsuario)}
                .AbrirDataSet
                .GetQuery
                .Fields[0].AsFloat;
