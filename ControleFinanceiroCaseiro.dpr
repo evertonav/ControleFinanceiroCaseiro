@@ -7,7 +7,6 @@ uses
   uFrameMenusAcessoRapido in 'view\Frames\uFrameMenusAcessoRapido.pas' {Frame1: TFrame},
   Uteis in 'controller\Uteis.pas',
   ufrmPrincipal in 'view\ufrmPrincipal.pas' {frmPrincipal},
-  Model.DAO.Gasto in 'model\DAO\Model.DAO.Gasto.pas',
   Model.Conexao.ConfiguracaoBanco in 'model\Conexao\Model.Conexao.ConfiguracaoBanco.pas',
   Model.Conexao.Feature in 'model\Conexao\Model.Conexao.Feature.pas',
   Model.Conexao.FireDac in 'model\Conexao\Model.Conexao.FireDac.pas',
@@ -32,7 +31,11 @@ uses
   AdicionarFrames in 'view\Frames\AdicionarFrames.pas',
   AdicionarFramesConjunto in 'view\Frames\AdicionarFramesConjunto.pas',
   AdicionarFramesPeriodo in 'view\Frames\AdicionarFramesPeriodo.pas',
-  Model.DAO.BuscarDevedores in 'model\DAO\Model.DAO.BuscarDevedores.pas';
+  Model.DAO.BuscarDevedores in 'model\DAO\Model.DAO.BuscarDevedores.pas',
+  Model.DAO.Despesas in 'model\DAO\Model.DAO.Despesas.pas',
+  Model.DAO.BuscarPessoas in 'model\DAO\Model.DAO.BuscarPessoas.pas',
+  uFrameDespesasPagas in 'view\Frames\uFrameDespesasPagas.pas' {FrameDespesasPagas: TFrame},
+  uFrameItemDespesaPaga in 'view\Frames\uFrameItemDespesaPaga.pas' {FrameItemDespesaPaga: TFrame};
 
 {$R *.res}
 

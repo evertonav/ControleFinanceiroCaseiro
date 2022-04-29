@@ -270,7 +270,6 @@
             <Form>frmPrincipal</Form>
             <FormType>fmx</FormType>
         </DCCReference>
-        <DCCReference Include="model\DAO\Model.DAO.Gasto.pas"/>
         <DCCReference Include="model\Conexao\Model.Conexao.ConfiguracaoBanco.pas"/>
         <DCCReference Include="model\Conexao\Model.Conexao.Feature.pas"/>
         <DCCReference Include="model\Conexao\Model.Conexao.FireDac.pas"/>
@@ -320,6 +319,18 @@
         <DCCReference Include="view\Frames\AdicionarFramesConjunto.pas"/>
         <DCCReference Include="view\Frames\AdicionarFramesPeriodo.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.BuscarDevedores.pas"/>
+        <DCCReference Include="model\DAO\Model.DAO.Despesas.pas"/>
+        <DCCReference Include="model\DAO\Model.DAO.BuscarPessoas.pas"/>
+        <DCCReference Include="view\Frames\uFrameDespesasPagas.pas">
+            <Form>FrameDespesasPagas</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="view\Frames\uFrameItemDespesaPaga.pas">
+            <Form>FrameItemDespesaPaga</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
