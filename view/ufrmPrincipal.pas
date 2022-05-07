@@ -58,11 +58,14 @@ type
     { Private declarations }
     FContainerAdicionado: TFmxObject;
 
-    procedure MostrarMenuPrincipal;
     procedure MostrarDevedores;
     procedure MostrarLogin;
     procedure MostrarAdicaoGastos;
     procedure MostrarAdicaoDevedores;
+    procedure MostrarMenuAcessoRapido;
+
+    procedure MostrarTelasValores(const pDataInicial: TDateTime;
+                                  const pDataFinal: TDateTime);
 
     procedure ConfigurarMenuSelecionado(const pMenu: TMenu);
   public
@@ -108,15 +111,38 @@ begin
   lytContainerCentroTela.Visible := (pMenu = mnFrameDevedores);
 
   lytContainerTelaInteira.Visible := (pMenu = mnAdicaoGastos)
-                                  or (pMenu = mnAdicaoDevedores)
-                                  or (pMenu = mnPrincipal);
+                                  or (pMenu = mnAdicaoDevedores);
 
   lytContainerTelaInteira.Visible := True;
 
   ConfigurarMenuSelecionado(pMenu);
 
   case pMenu of
-    mnPrincipal: MostrarMenuPrincipal;
+    mnPrincipal:
+    begin
+      var lDataInicial: TDateTime;
+      var lDataFinal: TDateTime;
+
+      lytContainerTelaInteira.Visible := True;
+
+      lDataInicial := StartOfTheMonth(Now);
+      lDataFinal := EndOfTheMonth(Now);
+
+      if TController
+	    .Criar
+	    .DespesasXSobrando
+	    .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+	    .DataInicial(lDataInicial)
+	    .DataFinal(lDataFinal)
+	    .TotalDespesas > 0 then
+
+        MostrarTelasValores(lDataInicial, lDataFinal)
+      else
+      begin
+        lytContainerCentroTela.Visible := True;
+        MostrarMenuAcessoRapido;
+      end;
+    end;
     mnAdicaoGastos: MostrarAdicaoGastos;
     mnLogin: MostrarLogin;
     mnAdicaoDevedores: MostrarAdicaoDevedores;
@@ -164,33 +190,26 @@ begin
   FContainerAdicionado := TAdicionarFrameLogin.Criar.Container(Self).Executar;
 end;
 
-procedure TfrmPrincipal.MostrarMenuPrincipal;
+procedure TfrmPrincipal.MostrarMenuAcessoRapido;
+begin
+  FContainerAdicionado := TAdicionarFrameMenuAcessoRapido.Criar.Container(lytContainerCentroTela).Executar;
+end;
+
+procedure TfrmPrincipal.MostrarTelasValores(const pDataInicial,
+  pDataFinal: TDateTime);
 var
-  lDataInicial: TDate;
-  lDataFinal: TDate;
   lFrameDespesasXSobrando: TAdicionarFramePeriodo;
   lFrameDevedores: TAdicionarFramePeriodo;
   lFrameDespesasPagas: TAdicionarFramePeriodo;
 begin
-  lDataInicial := StartOfTheMonth(Now);
-  lDataFinal := EndOfTheMonth(Now);
-
-  if TController
-      .Criar
-      .DespesasXSobrando
-      .IdUsuario(TUsuarioLogado.gCodigoUsuario)
-      .DataInicial(lDataInicial)
-      .DataFinal(lDataFinal)
-      .TotalDespesas > 0 then
-  begin
     lFrameDespesasXSobrando := TAdicionarFrameDespesasXSobrando.Create;
-    lFrameDespesasXSobrando.DataInicial(lDataInicial).DataFinal(lDataFinal);
+    lFrameDespesasXSobrando.DataInicial(pDataInicial).DataFinal(pDataFinal);
 
     lFrameDevedores := TAdicionarFrameDevedores.Create;
-    lFrameDevedores.DataInicial(lDataInicial).DataFinal(lDataFinal);
+    lFrameDevedores.DataInicial(pDataInicial).DataFinal(pDataFinal);
 
     lFrameDespesasPagas := TAdicionarFrameDespesasPagas.Create;
-    lFrameDespesasPagas.DataInicial(lDataInicial).DataFinal(lDataFinal);
+    lFrameDespesasPagas.DataInicial(pDataInicial).DataFinal(pDataFinal);
 
     FContainerAdicionado := TAdicionarFrameConjunto
                               .Criar
@@ -199,9 +218,6 @@ begin
                               .AdicionarTela(lFrameDespesasPagas)
                               .Container(lytContainerTelaInteira)
                               .Executar;
-  end
-  else
-    FContainerAdicionado := TAdicionarFrameMenuAcessoRapido.Criar.Container(lytContainerCentroTela).Executar;
 end;
 
 procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);

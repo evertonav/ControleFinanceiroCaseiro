@@ -63,6 +63,7 @@ type
     procedure cbxPesquisarChange(Sender: TObject);
     procedure edtValorKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     procedure PreencherDadosAbaCadastro(const pId: Integer;
@@ -192,6 +193,13 @@ procedure TfrmCadastroDespesas.edtValorKeyUp(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
   TMask.MaskFloat(TEdit(Sender), '#0.00');
+end;
+
+procedure TfrmCadastroDespesas.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  dteData.Date := Now;
 end;
 
 procedure TfrmCadastroDespesas.LimparCadastro;
