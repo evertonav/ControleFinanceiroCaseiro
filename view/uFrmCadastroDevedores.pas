@@ -22,34 +22,37 @@ type
     lytTituloCodigo: TLayout;
     lblNomePessoaDevedora: TLabel;
     cbxPessoa: TComboBox;
-    Layout1: TLayout;
-    Layout2: TLayout;
-    Layout3: TLayout;
-    Label1: TLabel;
+    lytContainerValorEmprestado: TLayout;
+    lytContainerCampoValorEmprestado: TLayout;
+    lytValorEmprestado: TLayout;
+    lblValorEmprestado: TLabel;
     edtValorEmprestado: TEdit;
-    Layout4: TLayout;
-    Layout5: TLayout;
+    lytContainerPago: TLayout;
+    lytPago: TLayout;
     chkPago: TCheckBox;
-    Layout6: TLayout;
+    lytContainerDataEmprestou: TLayout;
     lytCampoData: TLayout;
     lytData: TLayout;
     lblData: TLabel;
     dteDataEmprestou: TDateEdit;
-    SpeedButton1: TSpeedButton;
-    FillRGBEffect1: TFillRGBEffect;
+    btnAdicionarPessoaDevedora: TSpeedButton;
+    freCorBotaoAdicionarPessoa: TFillRGBEffect;
     lytContainerPesquisar: TLayout;
     edtPesquisa: TEdit;
     lblPesquisar: TLabel;
     btnPesquisar: TSpeedButton;
-    Layout7: TLayout;
-    Layout8: TLayout;
-    Layout9: TLayout;
-    Label2: TLabel;
+    lytContainerID: TLayout;
+    lytContainerCampoID: TLayout;
+    lytID: TLayout;
+    lblID: TLabel;
     edtId: TEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
     procedure mniAlterarClick(Sender: TObject);
     procedure mniRemoverClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edtValorEmprestadoKeyUp(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
   private
     { Private declarations }
     procedure PesquisarDevedores;
@@ -68,7 +71,8 @@ implementation
 
 uses
   Controller,
-  Controller.VariaveisGlobais;
+  Controller.VariaveisGlobais,
+  Uteis;
 
 {$R *.fmx}
 
@@ -115,6 +119,21 @@ begin
   end;
 
   FAcaoCadastro := acInserir;
+end;
+
+procedure TfrmCadastroDevedores.edtValorEmprestadoKeyUp(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+  inherited;
+
+  TMask.MaskFloat(TEdit(Sender), '#0.00');
+end;
+
+procedure TfrmCadastroDevedores.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  dteDataEmprestou.Date := Now;
 end;
 
 procedure TfrmCadastroDevedores.mniAlterarClick(Sender: TObject);
