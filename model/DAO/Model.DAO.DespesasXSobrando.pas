@@ -44,7 +44,8 @@ uses
   Model.Query.Feature,
   Controller.VariaveisGlobais,
   System.SysUtils,
-  Controller.Helper;
+  Controller.Helper,
+  Model.DAO.BuscarDevedores;
 
 { TModelDAODespesasXSobrando }
 
@@ -151,7 +152,15 @@ end;
 
 function TModelDAODespesasXSobrando.TotalSobrando: Double;
 begin
-  Result := TUsuarioLogado.gValorRenda - TotalDespesas;
+  Result := TUsuarioLogado.gValorRenda
+          - TotalDespesas
+          + TModelDAOBuscarDevedores
+              .Criar
+              .DataInicial(FDataInicial)
+              .DataFinal(FDataFinal)
+              .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+              .Pago(True)
+              .Total;
 end;
 
 
