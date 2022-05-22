@@ -52,6 +52,7 @@ begin
   lTotalDespesas := TModelDAODespesasXSobrando
                             .Criar
                             .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+                            .Pago(0)
                             .DataInicial(FDataInicial)
                             .DataFinal(FDataFinal)
                             .TotalDespesas;
@@ -64,7 +65,7 @@ begin
                                          .IdUsuario(TUsuarioLogado.gCodigoUsuario)
                                          .DataInicial(FDataInicial)
                                          .DataFinal(FDataFinal)
-                                         .TotalSobrando(lTotalDespesas));
+                                         .TotalSobrando);
 
   lblMesAno.Text := FormatFloat('00', MonthOf(FDataInicial)) + '/' + YearOf(FDataInicial).ToString;
 end;
