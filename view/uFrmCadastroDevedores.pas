@@ -61,6 +61,7 @@ type
       var KeyChar: Char; Shift: TShiftState);
     procedure cbxPesquisarChange(Sender: TObject);
     procedure btnListagemClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
     procedure PesquisarDevedores(const pTipoPesquisa: TPesquisaDevedores);
@@ -70,6 +71,8 @@ type
                                         const pPago: Boolean);
 
     procedure ConfigurarPesquisa(const pTipoPesquisa: TPesquisaDevedores);
+
+    procedure LimparCadastro;
   public
     { Public declarations }
   end;
@@ -86,6 +89,13 @@ uses
   System.DateUtils;
 
 {$R *.fmx}
+
+procedure TfrmCadastroDevedores.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+
+  LimparCadastro;
+end;
 
 procedure TfrmCadastroDevedores.btnListagemClick(Sender: TObject);
 begin
@@ -134,6 +144,8 @@ begin
     end;
 
     ShowMessage('Devedor salvo com sucesso!');
+
+    LimparCadastro;
   except
     on E: Exception do
       ShowMessage(E.Message)
@@ -170,6 +182,13 @@ begin
   inherited;
 
   dteDataEmprestou.Date := Now;
+end;
+
+procedure TfrmCadastroDevedores.LimparCadastro;
+begin
+  dteDataEmprestou.Date := Now;
+  edtValorEmprestado.Text := '0,00';
+  chkPago.IsChecked := False;
 end;
 
 procedure TfrmCadastroDevedores.mniAlterarClick(Sender: TObject);
