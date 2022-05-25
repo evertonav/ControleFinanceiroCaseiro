@@ -7,6 +7,8 @@ uses
   FMX.Edit;
 
 type
+  TTipoMensagem = (tpMensagemSucesso, tpMensagemErro);
+
   TAdicionarFrame = class
   public
     class procedure AdicionarFrame(var pObjetoCriar: TFmxObject;

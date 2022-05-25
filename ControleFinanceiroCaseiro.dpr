@@ -35,7 +35,9 @@ uses
   Model.DAO.Despesas in 'model\DAO\Model.DAO.Despesas.pas',
   Model.DAO.BuscarPessoas in 'model\DAO\Model.DAO.BuscarPessoas.pas',
   uFrameDespesasPagas in 'view\Frames\uFrameDespesasPagas.pas' {FrameDespesasPagas: TFrame},
-  uFrameItemDespesaPaga in 'view\Frames\uFrameItemDespesaPaga.pas' {FrameItemDespesaPaga: TFrame};
+  uFrameItemDespesaPaga in 'view\Frames\uFrameItemDespesaPaga.pas' {FrameItemDespesaPaga: TFrame},
+  uFrameMensagemAviso in 'view\Frames\uFrameMensagemAviso.pas' {FrameMensagemAviso: TFrame},
+  AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrameMensagemAviso.pas';
 
 {$R *.res}
 

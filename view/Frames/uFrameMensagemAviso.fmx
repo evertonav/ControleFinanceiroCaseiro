@@ -1,0 +1,23 @@
+inherited FrameMensagemAviso: TFrameMensagemAviso
+  Align = Top
+  Size.Height = 40.000000000000000000
+  object rtcMensagemAviso: TRectangle
+    Align = Client
+    Fill.Color = xFF181B23
+    Size.Width = 320.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFEC0101
+    object lblMensagemAviso: TLabel
+      Align = Client
+      StyledSettings = [Family, Size, Style]
+      Size.Width = 320.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = 'Devedor salvo com sucesso!'
+      TabOrder = 0
+    end
+  end
+end

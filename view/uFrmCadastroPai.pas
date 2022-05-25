@@ -12,7 +12,7 @@ uses
   FireDAC.Stan.Async, FireDAC.DApt, Data.Bind.EngExt, Fmx.Bind.DBEngExt,
   Fmx.Bind.Grid, System.Bindings.Outputs, Fmx.Bind.Editors,
   Data.Bind.Components, Data.Bind.Grid, Data.Bind.DBScope, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Model.Conexao.Feature;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Model.Conexao.Feature, Uteis;
 
 type
   TAcaoCadastro = (acInserir, acAtualizar);
@@ -56,6 +56,8 @@ type
 
     procedure AtivarAbaCadastro;
     procedure AtivarAbaListagem;
+    procedure AdicionarMensagemAviso(const pTipoMensagem: TTipoMensagem;
+                                     const pMensagem: string);
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject);
@@ -66,9 +68,45 @@ var
 
 implementation
 
+uses
+  AdicionarFrameMensagemAviso;
+
 {$R *.fmx}
 
 { TfrmCadastroPai }
+
+procedure TfrmCadastroPai.AdicionarMensagemAviso(
+  const pTipoMensagem: TTipoMensagem; const pMensagem: string);
+var
+  lThreadInserirAviso: TThread;
+begin
+  lThreadInserirAviso := TThread.CreateAnonymousThread(
+                      procedure ()
+                      var
+                        lObjetoFrameMensagem: TFmxObject;
+                      begin
+                        TThread.Synchronize(
+                          TThread.CurrentThread,
+                          PROCEDURE ()
+                          BEGIN
+                            lObjetoFrameMensagem := TAdicionarFrameMensagemAviso
+                                                      .Criar
+                                                      .Mensagem(pMensagem)
+                                                      .TipoMensagem(pTipoMensagem)
+                                                      .Container(tbiCadastro)
+                                                      .Executar;
+                          END
+                        );
+
+                        Sleep(2000);
+
+                        lObjetoFrameMensagem.Free;
+                      end
+                    );
+
+  lThreadInserirAviso.FreeOnTerminate := True;
+  lThreadInserirAviso.Start;
+end;
 
 procedure TfrmCadastroPai.AdicionarParent(const pContainer: TFmxObject);
 begin

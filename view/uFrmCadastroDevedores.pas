@@ -143,12 +143,13 @@ begin
       end;
     end;
 
-    ShowMessage('Devedor salvo com sucesso!');
+    Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemSucesso,
+                                'Devedor salvo com sucesso!');
 
     LimparCadastro;
   except
     on E: Exception do
-      ShowMessage(E.Message)
+      Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemErro, e.Message);
   end;
 
   FAcaoCadastro := acInserir;

@@ -165,10 +165,11 @@ begin
 
     LimparCadastro;
 
-    ShowMessage('Despesa salva com sucesso!');
+    Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemSucesso,
+                                'Despesa salva com sucesso!');
   except
     on E: Exception do
-      ShowMessage(E.Message)
+      Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemErro, e.Message);
   end;
 
   FAcaoCadastro := acInserir;
