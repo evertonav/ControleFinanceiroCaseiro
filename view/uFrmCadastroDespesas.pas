@@ -272,7 +272,7 @@ procedure TfrmCadastroDespesas.PreencherDadosAbaCadastro(const pId: Integer;
 begin
   edtCodigo.Text := pId.ToString;
   dteData.Date := pData;
-  edtValor.Text := FormatFloat('##.##', pValor);
+  edtValor.Text := FormatFloat('#0.00', pValor);
   edtDescricao.Text := pDescricao;
   chkPago.IsChecked := Boolean(pPago);
 end;

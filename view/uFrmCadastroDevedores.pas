@@ -243,7 +243,7 @@ procedure TfrmCadastroDevedores.PreencherDadosAbaCadastro(const pId: Integer;
 begin
   edtId.Text := pId.ToString;
   dteDataEmprestou.Date := pDataEmprestou;
-  edtValorEmprestado.Text := pValorEmprestou.ToString;
+  edtValorEmprestado.Text := FormatFloat('#0.00', pValorEmprestou);
   chkPago.IsChecked := pPago;
 end;
 

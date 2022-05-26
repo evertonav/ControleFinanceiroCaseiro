@@ -48,6 +48,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure mniAlterarClick(Sender: TObject);
+    procedure grdListagemDespesasCellDblClick(const Column: TColumn;
+      const Row: Integer);
   private
     { Private declarations }
     FConexao: IModelConexaoFeature;
@@ -148,6 +150,12 @@ begin
   qrPesquisar.Connection := TFDCustomConnection(FConexao.Conexao);
 
   AtivarAbaCadastro;
+end;
+
+procedure TfrmCadastroPai.grdListagemDespesasCellDblClick(const Column: TColumn;
+  const Row: Integer);
+begin
+  mniAlterar.OnClick(Self);
 end;
 
 procedure TfrmCadastroPai.mniAlterarClick(Sender: TObject);
