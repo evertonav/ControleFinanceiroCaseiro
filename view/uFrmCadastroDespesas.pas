@@ -122,8 +122,6 @@ begin
   tbcCadastroDespesas.ActiveTab := tbiListagem;
 
   ConfigurarPesquisa(tpData);
-  dteDataInicial.Date := StartOfTheMonth(Now);
-  dteDataFinal.Date := EndOfTheMonth(Now);
   PesquisarDespesas(tpData);
 end;
 
@@ -200,6 +198,8 @@ procedure TfrmCadastroDespesas.FormCreate(Sender: TObject);
 begin
   inherited;
 
+  dteDataInicial.Date := StartOfTheMonth(Now);
+  dteDataFinal.Date := EndOfTheMonth(Now);
   dteData.Date := Now;
 end;
 
