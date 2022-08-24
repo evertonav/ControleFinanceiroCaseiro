@@ -197,7 +197,7 @@ begin
   PreencherDadosAbaCadastro(qrPesquisar.FieldByName('id').AsInteger,
                             qrPesquisar.FieldByName('DATA_EMPRESTOU').AsDateTime,
                             qrPesquisar.FieldByName('valor_emprestado').AsFloat,
-                            Boolean(qrPesquisar.FieldByName('PAGO').AsInteger));
+                            Boolean(TParseCampo.TratarCampoPago(qrPesquisar.FieldByName('PAGO').AsString)));
 
   inherited
 end;
@@ -208,7 +208,10 @@ CONST CONST_PESQUISAR_DEVEDORES = 'SELECT '
                                 + '  d.id, '
                                 + '  p.nome, '
                                 + '  d.valor_emprestado, '
-                                + '  d.pago, '
+                                + '  Case '
+                                + '    when pago = 1 then ' + '''' + 'Sim' + ''''
+                                + '    else ' + '''' + 'Não' + ''''
+                                + '  End as pago, '
                                 + '  d.data_emprestou '
                                 + 'FROM '
                                 + '  devedores d '
@@ -236,6 +239,12 @@ begin
 
   qrPesquisar.Params.ParamByName('id_usuario').AsInteger := TUsuarioLogado.gCodigoUsuario;
   qrPesquisar.Open;
+
+  qrPesquisar.FieldByName('id').DisplayLabel := 'Id';
+  qrPesquisar.FieldByName('nome').DisplayLabel := 'Nome';
+  qrPesquisar.FieldByName('valor_emprestado').DisplayLabel := 'Valor Emprestado';
+  qrPesquisar.FieldByName('pago').DisplayLabel := 'Pago';
+  qrPesquisar.FieldByName('data_emprestou').DisplayLabel := 'Data Empréstimo';
 end;
 
 procedure TfrmCadastroDevedores.PreencherDadosAbaCadastro(const pId: Integer;

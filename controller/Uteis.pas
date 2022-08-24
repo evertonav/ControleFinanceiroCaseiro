@@ -9,6 +9,13 @@ uses
 type
   TTipoMensagem = (tpMensagemSucesso, tpMensagemErro);
 
+  TParseCampo = class
+  private
+
+  public
+    class function TratarCampoPago(const pPago: string): Integer;
+  end;
+
   TAdicionarFrame = class
   public
     class procedure AdicionarFrame(var pObjetoCriar: TFmxObject;
@@ -58,6 +65,16 @@ begin
 
   TEdit(pEdit).Text := FormatFloat(pMask, lFloatAux);
   TEdit(pEdit).GoToTextEnd;
+end;
+
+{ TParseCampo }
+
+class function TParseCampo.TratarCampoPago(const pPago: string): Integer;
+begin
+  if UpperCase(pPago) = 'SIM' then
+    Result := 1
+  else
+    Result := 0;
 end;
 
 end.
