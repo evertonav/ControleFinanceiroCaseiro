@@ -72,6 +72,8 @@ type
                                         const pDescricao: string;
                                         const pPago: SmallInt);
 
+    function TratarCampoPago(const pPago: string): Integer;
+
     procedure LimparCadastro;
     procedure PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
 
@@ -219,7 +221,7 @@ begin
                               qrPesquisar.FieldByName('data').AsDateTime,
                               qrPesquisar.FieldByName('valor').AsFloat,
                               qrPesquisar.FieldByName('descricao').AsString,
-                              qrPesquisar.FieldByName('pago').AsInteger);
+                              TratarCampoPago(qrPesquisar.FieldByName('pago').AsString));
 
     FAcaoCadastro := acAtualizar;
 
@@ -290,6 +292,14 @@ begin
   edtValor.Text := FormatFloat('#0.00', pValor);
   edtDescricao.Text := pDescricao;
   chkPago.IsChecked := Boolean(pPago);
+end;
+
+function TfrmCadastroDespesas.TratarCampoPago(const pPago: string): Integer;
+begin
+  if UpperCase(pPago) = 'SIM' then
+    Result := 1
+  else
+    Result := 0;
 end;
 
 end.
