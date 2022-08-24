@@ -242,7 +242,16 @@ begin
 end;
 
 procedure TfrmCadastroDespesas.PesquisarDespesas(const pTipoPesquisa: TTipoPesquisa);
-CONST CONST_TESTE = 'SELECT id, data, descricao, valor, pago FROM gasto ';
+CONST CONST_TESTE = 'SELECT '
+                  + '  id, '
+                  + '  data, '
+                  + '  descricao, '
+                  + '  valor, '
+                  + '  Case '
+                  + '    when pago = 1 then ' + '''' + 'Sim' + ''''
+                  + '    else ' + '''' + 'Não' + ''''
+                  + '  End as pago '
+                  + ' FROM gasto ';
 begin
   //Estudar sobre live binding para fazer em poo
   qrPesquisar.SQL.Clear;
@@ -264,6 +273,12 @@ begin
 
   qrPesquisar.SQL.Add(' AND id_usuario = ' + TUsuarioLogado.gCodigoUsuario.ToString);
   qrPesquisar.Open;
+
+  qrPesquisar.FieldByName('id').DisplayLabel := 'Id';
+  qrPesquisar.FieldByName('data').DisplayLabel := 'Data';
+  qrPesquisar.FieldByName('descricao').DisplayLabel := 'Descrição';
+  qrPesquisar.FieldByName('valor').DisplayLabel := 'Valor';
+  qrPesquisar.FieldByName('pago').DisplayLabel := 'Pago';
 end;
 
 procedure TfrmCadastroDespesas.PreencherDadosAbaCadastro(const pId: Integer;
