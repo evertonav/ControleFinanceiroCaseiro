@@ -37,12 +37,12 @@ type
     qrPesquisar: TFDQuery;
     lytContainerBotoesAcao: TLayout;
     btnCancelar: TSpeedButton;
-    imgCancelar: TImage;
     btnSalvar: TSpeedButton;
-    imgSalvar: TImage;
     bdsPesquisar: TBindSourceDB;
     bdlPesquisar: TBindingsList;
     LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource;
+    rtcGravar: TRectangle;
+    rtcCancelar: TRectangle;
     procedure btnCadastroClick(Sender: TObject);
     procedure btnListagemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
