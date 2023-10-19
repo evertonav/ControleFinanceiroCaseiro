@@ -37,7 +37,9 @@ uses
   uFrameDespesasPagas in 'view\Frames\uFrameDespesasPagas.pas' {FrameDespesasPagas: TFrame},
   uFrameItemDespesaPaga in 'view\Frames\uFrameItemDespesaPaga.pas' {FrameItemDespesaPaga: TFrame},
   uFrameMensagemAviso in 'view\Frames\uFrameMensagemAviso.pas' {FrameMensagemAviso: TFrame},
-  AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrameMensagemAviso.pas';
+  AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrameMensagemAviso.pas',
+  Model.DAO.CopiarDespesas in 'model\DAO\Model.DAO.CopiarDespesas.pas',
+  Model.DAO.Copiar in 'model\DAO\Interfaces\Model.DAO.Copiar.pas';
 
 {$R *.res}
 

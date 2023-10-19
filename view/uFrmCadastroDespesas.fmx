@@ -17,12 +17,14 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
     end
     inherited tbcCadastroDespesas: TTabControl
       Size.Width = 671.000000000000000000
+      TabIndex = 1
       Sizes = (
         671s
         439s
         671s
         439s)
       inherited tbiCadastro: TTabItem
+        IsSelected = False
         ExplicitSize.cx = 68.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         inherited rtcContainer: TRectangle
@@ -276,15 +278,16 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
         end
       end
       inherited tbiListagem: TTabItem
+        IsSelected = True
         ExplicitSize.cx = 68.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         inherited rtcListagem: TRectangle
           Size.Width = 671.000000000000000000
           inherited grdListagemDespesas: TGrid
-            Size.Width = 671.000000000000000000
+            Size.Width = 544.000000000000000000
             Size.Height = 430.000000000000000000
-            TabOrder = 3
-            Viewport.Width = 671.000000000000000000
+            TabOrder = 4
+            Viewport.Width = 544.000000000000000000
             Viewport.Height = 430.000000000000000000
           end
           object lytContainerPesquisar: TLayout
@@ -292,7 +295,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             Size.Width = 671.000000000000000000
             Size.Height = 50.000000000000000000
             Size.PlatformDefault = False
-            TabOrder = 2
+            TabOrder = 3
             object edtPesquisar: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               Align = Client
@@ -353,6 +356,26 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
               Size.Height = 50.000000000000000000
               Size.PlatformDefault = False
               TabOrder = 2
+            end
+          end
+          object lytAcoes: TLayout
+            Align = Right
+            Position.X = 544.000000000000000000
+            Position.Y = 50.000000000000000000
+            Size.Width = 127.000000000000000000
+            Size.Height = 430.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            object btnCopiarDespesas: TButton
+              Hint = 'Copia as despesas do filtro para o pr'#243'ximo m'#234's.'
+              Position.X = 11.000000000000000000
+              Position.Y = 9.000000000000000000
+              Size.Width = 105.000000000000000000
+              Size.Height = 49.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 0
+              Text = 'Copiar Despesas'
+              OnClick = btnCopiarDespesasClick
             end
           end
         end

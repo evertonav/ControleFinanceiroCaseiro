@@ -17,11 +17,11 @@ type
   private
     FQuery: IModelQuery;
     FConexao: IModelConexaoFeature;
+  public
+    class function Criar: IModelQueryFeature;
 
     function Query: IModelQuery; overload;
     function Query(const pConexao: IModelConexaoFeature): IModelQuery; overload;
-  public
-    class function Criar: IModelQueryFeature;
   end;
 
 implementation

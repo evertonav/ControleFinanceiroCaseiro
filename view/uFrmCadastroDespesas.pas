@@ -53,6 +53,8 @@ type
     dteDataFinal: TDateEdit;
     lytPago: TLayout;
     chkPago: TCheckBox;
+    lytAcoes: TLayout;
+    btnCopiarDespesas: TButton;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
@@ -64,6 +66,7 @@ type
     procedure edtValorKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
+    procedure btnCopiarDespesasClick(Sender: TObject);
   private
     { Private declarations }
     procedure PreencherDadosAbaCadastro(const pId: Integer;
@@ -115,6 +118,16 @@ begin
   inherited;
 
   LimparCadastro;
+end;
+
+procedure TfrmCadastroDespesas.btnCopiarDespesasClick(Sender: TObject);
+begin
+  TController
+    .Criar.CopiarDespesas()
+    .DataInicial(dteDataInicial.Date)
+    .DataFinal(dteDataFinal.Date)
+    .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+    .Copiar(IncMonth(dteDataInicial.Date));
 end;
 
 procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);

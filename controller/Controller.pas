@@ -9,7 +9,10 @@ uses
   Model.DAO.Devedores,
   Model.DAO.BuscarDevedores,
   Model.DAO.BuscarPessoas,
-  Data.DB;
+  Data.DB,
+  Model.DAO.CopiarDespesas,
+  Model.Query.Feature,
+  Model.DAO.Copiar;
 
 type
   IController = interface
@@ -19,6 +22,7 @@ type
     function Devedor: IModelDAODevedores;
     function BuscarDevedores: IModelDAOBuscarDevedores;
     function BuscarPessoas: IModelDAOBuscarPessoas;
+    function CopiarDespesas: IModelDAOCopiar;
   end;
 
   TController = class(TInterfacedObject, IController)
@@ -29,6 +33,10 @@ type
     FDevedor: IModelDAODevedores;
     FBuscarDevedores: IModelDAOBuscarDevedores;
     FBuscarPessoa: IModelDAOBuscarPessoas;
+    FModelDAOCopiarDespesas: IModelDAOCopiar;
+
+    FQueryFeature: IModelQueryFeature;
+
   public
     function Despesas: IModelDAODespesas;
     function DespesasXSobrando: IModelDAODespesasXSobrando;
@@ -36,11 +44,17 @@ type
     function Devedor: IModelDAODevedores;
     function BuscarDevedores: IModelDAOBuscarDevedores;
     function BuscarPessoas: IModelDAOBuscarPessoas;
+    function CopiarDespesas: IModelDAOCopiar;
+
+    constructor Create;
 
     class function Criar: IController;
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TController }
 
@@ -66,6 +80,22 @@ begin
     FBuscarPessoa := TModelDAOBuscarPessoas.Criar;
 
   Result := FBuscarPessoa;
+end;
+
+function TController.CopiarDespesas: IModelDAOCopiar;
+begin
+  if not Assigned(FModelDAOCopiarDespesas) then
+  begin
+    FModelDAOCopiarDespesas :=
+      TModelDAOCopiarDespesas.Criar(FQueryFeature.Query);
+  end;
+
+  Result := FModelDAOCopiarDespesas;
+end;
+
+constructor TController.Create;
+begin
+  FQueryFeature := TModelQueryFeature.Criar;
 end;
 
 class function TController.Criar: IController;
