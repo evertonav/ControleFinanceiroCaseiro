@@ -59,7 +59,8 @@ type
     procedure AtivarAbaCadastro;
     procedure AtivarAbaListagem;
     procedure AdicionarMensagemAviso(const pTipoMensagem: TTipoMensagem;
-                                     const pMensagem: string);
+                                     const pMensagem: string;
+                                     const pContainer: TFmxObject = nil);
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject);
@@ -78,10 +79,17 @@ uses
 { TfrmCadastroPai }
 
 procedure TfrmCadastroPai.AdicionarMensagemAviso(
-  const pTipoMensagem: TTipoMensagem; const pMensagem: string);
+  const pTipoMensagem: TTipoMensagem; const pMensagem: string;
+  const pContainer: TFmxObject);
 var
   lThreadInserirAviso: TThread;
+  lContainer: TFmxObject;
 begin
+  if pContainer = nil then
+    lContainer := tbiCadastro
+  else
+    lContainer := pContainer;
+
   lThreadInserirAviso := TThread.CreateAnonymousThread(
                       procedure ()
                       var
@@ -95,7 +103,7 @@ begin
                                                       .Criar
                                                       .Mensagem(pMensagem)
                                                       .TipoMensagem(pTipoMensagem)
-                                                      .Container(tbiCadastro)
+                                                      .Container(lContainer)
                                                       .Executar;
                           END
                         );

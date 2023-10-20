@@ -1,29 +1,32 @@
-unit uFrmConfiguracaoUsuario;
+unit uFrmConfiguracao;
 
 interface
 
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.StdCtrls, FMX.ListBox, FMX.Edit, FMX.Controls.Presentation, FMX.Layouts;
+  FMX.StdCtrls, FMX.ListBox, FMX.Edit, FMX.Controls.Presentation, FMX.Layouts,
+  FMX.TabControl;
 
 type
-  TForm2 = class(TForm)
+  TfrmConfiguracao = class(TForm)
     rtcContainer: TRectangle;
-    Layout3: TLayout;
-    Layout4: TLayout;
-    Label2: TLabel;
-    edtValor: TEdit;
+    lytValorRenda: TLayout;
+    lytlblValorRenda: TLayout;
+    lblValorRenda: TLabel;
+    edtValorRenda: TEdit;
     lytContainerBotoesAcao: TLayout;
-    Layout5: TLayout;
-    Layout6: TLayout;
-    Label3: TLabel;
-    edtDescricao: TEdit;
+    lytNomeUsuario: TLayout;
+    lytlblNomeUsuario: TLayout;
+    lblNomeUsuario: TLabel;
+    edtNomeUsuario: TEdit;
     rtcGravar: TRectangle;
     btnSalvar: TSpeedButton;
     lytMenu: TLayout;
     rtcMenu: TRectangle;
     btnUsuario: TSpeedButton;
+    tbcConfiguracoes: TTabControl;
+    tbiUsuario: TTabItem;
   private
     { Private declarations }
   public
@@ -31,7 +34,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  frmConfiguracao: TfrmConfiguracao;
 
 implementation
 

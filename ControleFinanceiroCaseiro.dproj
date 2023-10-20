@@ -161,8 +161,8 @@
         <DCCReference Include="model\Query\Model.Query.FireDac.pas"/>
         <DCCReference Include="controller\Controller.Helper.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.DespesasXSobrando.pas"/>
-        <DCCReference Include="view\uFrmConfiguracaoUsuario.pas">
-            <Form>Form2</Form>
+        <DCCReference Include="view\uFrmConfiguracao.pas">
+            <Form>frmConfiguracao</Form>
             <FormType>fmx</FormType>
         </DCCReference>
         <DCCReference Include="controller\Controller.VariaveisGlobais.pas"/>
@@ -220,6 +220,8 @@
         <DCCReference Include="view\Frames\AdicionarFrameMensagemAviso.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.CopiarDespesas.pas"/>
         <DCCReference Include="model\DAO\Interfaces\Model.DAO.Copiar.pas"/>
+        <DCCReference Include="model\DAO\Model.DAO.Usuario.pas"/>
+        <DCCReference Include="model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas"/>
         <None Include="C:\Controle-Gasto\ControleGastos.dpr"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

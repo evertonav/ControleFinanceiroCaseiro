@@ -17,14 +17,12 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
     end
     inherited tbcCadastroDespesas: TTabControl
       Size.Width = 671.000000000000000000
-      TabIndex = 1
       Sizes = (
         671s
         439s
         671s
         439s)
       inherited tbiCadastro: TTabItem
-        IsSelected = False
         ExplicitSize.cx = 68.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         inherited rtcContainer: TRectangle
@@ -33,8 +31,14 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             Position.Y = 196.000000000000000000
             Size.Width = 671.000000000000000000
             TabOrder = 4
+            inherited rtcCancelar: TRectangle
+              inherited btnCancelar: TSpeedButton
+                Cursor = crHandPoint
+              end
+            end
             inherited rtcGravar: TRectangle
               inherited btnSalvar: TSpeedButton
+                Cursor = crHandPoint
                 OnClick = btnSalvarClick
               end
             end
@@ -104,7 +108,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
                 Size.Width = 113.000000000000000000
                 Size.Height = 17.000000000000000000
                 Size.PlatformDefault = False
-                TabOrder = 0
+                TabOrder = 1
                 object lblData: TLabel
                   Align = Left
                   StyledSettings = [Family, Size, Style]
@@ -127,7 +131,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
                 Size.Width = 300.000000000000000000
                 Size.Height = 23.000000000000000000
                 Size.PlatformDefault = False
-                TabOrder = 1
+                TabOrder = 0
               end
             end
           end
@@ -243,7 +247,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             object edtValor: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               Align = Left
-              TabOrder = 1
+              TabOrder = 2
               MaxLength = 8
               Position.X = 10.000000000000000000
               Position.Y = 17.000000000000000000
@@ -270,7 +274,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
               Size.Width = 295.000000000000000000
               Size.Height = 26.000000000000000000
               Size.PlatformDefault = False
-              TabOrder = 0
+              TabOrder = 3
               Text = 'Pago'
               TextSettings.FontColor = claWhite
             end
@@ -278,17 +282,17 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
         end
       end
       inherited tbiListagem: TTabItem
-        IsSelected = True
         ExplicitSize.cx = 68.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         inherited rtcListagem: TRectangle
+          Fill.Color = claBlack
           Size.Width = 671.000000000000000000
           inherited grdListagemDespesas: TGrid
             Size.Width = 544.000000000000000000
-            Size.Height = 430.000000000000000000
+            Size.Height = 366.000000000000000000
             TabOrder = 4
             Viewport.Width = 544.000000000000000000
-            Viewport.Height = 430.000000000000000000
+            Viewport.Height = 366.000000000000000000
           end
           object lytContainerPesquisar: TLayout
             Align = Top
@@ -299,7 +303,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             object edtPesquisar: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               Align = Client
-              TabOrder = 0
+              TabOrder = 3
               Size.Width = 188.000000000000000000
               Size.Height = 50.000000000000000000
               Size.PlatformDefault = False
@@ -324,7 +328,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
               Size.Width = 89.000000000000000000
               Size.Height = 50.000000000000000000
               Size.PlatformDefault = False
-              TabOrder = 1
+              TabOrder = 0
               OnChange = cbxPesquisarChange
             end
             object dteDataInicial: TDateEdit
@@ -334,7 +338,7 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
               Size.Width = 120.000000000000000000
               Size.Height = 50.000000000000000000
               Size.PlatformDefault = False
-              TabOrder = 3
+              TabOrder = 1
             end
             object lblDataAte: TLabel
               Align = FitLeft
@@ -363,19 +367,39 @@ inherited frmCadastroDespesas: TfrmCadastroDespesas
             Position.X = 544.000000000000000000
             Position.Y = 50.000000000000000000
             Size.Width = 127.000000000000000000
-            Size.Height = 430.000000000000000000
+            Size.Height = 366.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 2
-            object btnCopiarDespesas: TButton
-              Hint = 'Copia as despesas do filtro para o pr'#243'ximo m'#234's.'
-              Position.X = 11.000000000000000000
-              Position.Y = 9.000000000000000000
-              Size.Width = 105.000000000000000000
-              Size.Height = 49.000000000000000000
+            object rtcCopiarDespesas: TRectangle
+              Align = Top
+              Fill.Kind = None
+              HitTest = False
+              Margins.Left = 10.000000000000000000
+              Margins.Top = 10.000000000000000000
+              Margins.Right = 10.000000000000000000
+              Margins.Bottom = 10.000000000000000000
+              Position.X = 10.000000000000000000
+              Position.Y = 10.000000000000000000
+              Size.Width = 107.000000000000000000
+              Size.Height = 48.000000000000000000
               Size.PlatformDefault = False
-              TabOrder = 0
-              Text = 'Copiar Despesas'
-              OnClick = btnCopiarDespesasClick
+              Stroke.Color = xFF5C69AE
+              XRadius = 10.000000000000000000
+              YRadius = 10.000000000000000000
+              object btnCopiarDespesas: TSpeedButton
+                Align = Client
+                Cursor = crHandPoint
+                StyledSettings = [Family, Size, Style]
+                Hint = 
+                  'Pega as despesas que est'#227'o na grade e copia para o m'#234's seguinte(' +
+                  'M'#234's seguinte da data inicial do filtro ou da descri'#231#227'o).'
+                Size.Width = 107.000000000000000000
+                Size.Height = 48.000000000000000000
+                Size.PlatformDefault = False
+                Text = 'Copiar'
+                TextSettings.FontColor = claWhite
+                OnClick = btnCopiarDespesasClick
+              end
             end
           end
         end

@@ -30,6 +30,8 @@ type
     function Descricao(const pValor: string): IModelDAOCopiar;
     function IdUsuario(const pValor: integer): IModelDAOCopiar;
 
+    function Validar(const pTotalRegistros: Integer): IModelDAOCopiar;
+
     function Copiar(const pDataDestino: TDate): IModelDAOCopiar;
 
     class function Criar(pQuery: IModelQuery): IModelDAOCopiar; overload;
@@ -161,6 +163,15 @@ end;
 function TModelDAOCopiarDespesas.IdUsuario(const pValor: Integer): IModelDAOCopiar;
 begin
   FIdUsuario := pValor;
+
+  Result := Self;
+end;
+
+function TModelDAOCopiarDespesas.Validar(
+  const pTotalRegistros: Integer): IModelDAOCopiar;
+begin
+  if pTotalRegistros = 0 then
+    raise Exception.Create('É necessário ter dados para copiar, por favor, faça outro filtro!');
 
   Result := Self;
 end;

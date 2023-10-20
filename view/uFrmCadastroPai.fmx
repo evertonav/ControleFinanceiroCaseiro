@@ -59,7 +59,7 @@ object frmCadastroPai: TfrmCadastroPai
       Size.Width = 640.000000000000000000
       Size.Height = 439.000000000000000000
       Size.PlatformDefault = False
-      TabIndex = 0
+      TabIndex = 1
       TabOrder = 0
       TabPosition = None
       Sizes = (
@@ -71,7 +71,7 @@ object frmCadastroPai: TfrmCadastroPai
         CustomIcon = <
           item
           end>
-        IsSelected = True
+        IsSelected = False
         Size.Width = 8.000000000000000000
         Size.Height = 8.000000000000000000
         Size.PlatformDefault = False
@@ -148,7 +148,7 @@ object frmCadastroPai: TfrmCadastroPai
         CustomIcon = <
           item
           end>
-        IsSelected = False
+        IsSelected = True
         Size.Width = 8.000000000000000000
         Size.Height = 8.000000000000000000
         Size.PlatformDefault = False
@@ -158,10 +158,10 @@ object frmCadastroPai: TfrmCadastroPai
         ExplicitSize.cx = 68.000000000000000000
         ExplicitSize.cy = 26.000000000000000000
         object rtcListagem: TRectangle
-          Align = Top
+          Align = Client
           Fill.Color = xFF181B23
           Size.Width = 640.000000000000000000
-          Size.Height = 480.000000000000000000
+          Size.Height = 416.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           object grdListagemDespesas: TGrid
@@ -170,14 +170,14 @@ object frmCadastroPai: TfrmCadastroPai
             ClipChildren = True
             PopupMenu = pmnAcoesGrade
             Size.Width = 640.000000000000000000
-            Size.Height = 480.000000000000000000
+            Size.Height = 416.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 2
             RowCount = 9
             Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
             OnCellDblClick = grdListagemDespesasCellDblClick
             Viewport.Width = 636.000000000000000000
-            Viewport.Height = 455.000000000000000000
+            Viewport.Height = 391.000000000000000000
           end
         end
         object rtcInformacoes: TRectangle

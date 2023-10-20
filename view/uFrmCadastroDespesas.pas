@@ -54,8 +54,8 @@ type
     lytPago: TLayout;
     chkPago: TCheckBox;
     lytAcoes: TLayout;
-    btnCopiarDespesas: TButton;
-    procedure btnSalvarClick(Sender: TObject);
+    rtcCopiarDespesas: TRectangle;
+    btnCopiarDespesas: TSpeedButton;
     procedure btnCancelarClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
     procedure btnCadastroClick(Sender: TObject);
@@ -67,6 +67,7 @@ type
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure btnCopiarDespesasClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
   private
     { Private declarations }
     procedure PreencherDadosAbaCadastro(const pId: Integer;
@@ -122,12 +123,28 @@ end;
 
 procedure TfrmCadastroDespesas.btnCopiarDespesasClick(Sender: TObject);
 begin
-  TController
-    .Criar.CopiarDespesas()
-    .DataInicial(dteDataInicial.Date)
-    .DataFinal(dteDataFinal.Date)
-    .IdUsuario(TUsuarioLogado.gCodigoUsuario)
-    .Copiar(IncMonth(dteDataInicial.Date));
+  try
+    TController.Criar
+      .CopiarDespesas()
+      //.Descricao(UpperCase(edtPesquisar.Text.Trim))
+      .DataInicial(dteDataInicial.Date)
+      .DataFinal(dteDataFinal.Date)
+      .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+      .Validar(qrPesquisar.RecordCount)
+      .Copiar(IncMonth(dteDataInicial.Date));
+
+    Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemSucesso,
+                                'Despesa copiada com sucesso!',
+                                tbiListagem);
+  except
+    on E: Exception do
+    begin
+      Self.AdicionarMensagemAviso(TTipoMensagem.tpMensagemErro,
+                                  e.Message,
+                                  tbiListagem);
+    end;
+  end;
+
 end;
 
 procedure TfrmCadastroDespesas.btnListagemClick(Sender: TObject);

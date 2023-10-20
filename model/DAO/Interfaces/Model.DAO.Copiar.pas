@@ -9,6 +9,7 @@ type
     function Descricao(const pValor: string): IModelDAOCopiar;
     function IdUsuario(const pValor: integer): IModelDAOCopiar;
 
+    function Validar(const pTotalRegistros: Integer): IModelDAOCopiar;
     function Copiar(const pDataDestino: TDate): IModelDAOCopiar;
 
   end;

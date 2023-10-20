@@ -17,7 +17,7 @@ uses
   Model.Query.FireDac in 'model\Query\Model.Query.FireDac.pas',
   Controller.Helper in 'controller\Controller.Helper.pas',
   Model.DAO.DespesasXSobrando in 'model\DAO\Model.DAO.DespesasXSobrando.pas',
-  uFrmConfiguracaoUsuario in 'view\uFrmConfiguracaoUsuario.pas' {Form2},
+  uFrmConfiguracao in 'view\uFrmConfiguracao.pas' {frmConfiguracao},
   Controller.VariaveisGlobais in 'controller\Controller.VariaveisGlobais.pas',
   Controller in 'controller\Controller.pas',
   Model.DAO.BuscarDespesas in 'model\DAO\Model.DAO.BuscarDespesas.pas',
@@ -39,14 +39,16 @@ uses
   uFrameMensagemAviso in 'view\Frames\uFrameMensagemAviso.pas' {FrameMensagemAviso: TFrame},
   AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrameMensagemAviso.pas',
   Model.DAO.CopiarDespesas in 'model\DAO\Model.DAO.CopiarDespesas.pas',
-  Model.DAO.Copiar in 'model\DAO\Interfaces\Model.DAO.Copiar.pas';
+  Model.DAO.Copiar in 'model\DAO\Interfaces\Model.DAO.Copiar.pas',
+  Model.DAO.Usuario in 'model\DAO\Model.DAO.Usuario.pas',
+  Model.DAO.Interfaces.Usuario in 'model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TfrmConfiguracao, frmConfiguracao);
   Application.CreateForm(TfrmCadastroPai, frmCadastroPai);
   Application.CreateForm(TfrmCadastroDespesas, frmCadastroDespesas);
   Application.CreateForm(TfrmCadastroDevedores, frmCadastroDevedores);
