@@ -22,10 +22,13 @@ type
     SpeedButton1: TSpeedButton;
     procedure SpeedButton1Click(Sender: TObject);
   private
+    FExecutarProcedimentoAposLogar: TProc;
     { Private declarations }
   public
     { Public declarations }
     procedure AdicionarParent(const pContainer: TFmxObject); override;
+    procedure AdicionarProcedimentoAposLogar(pProcedimento: TProc);
+//    property ExecutarProcedimentoAposLogar: TProc read FExecutarProcedimentoAposLogar write FExecutarProcedimentoAposLogar;
   end;
 
 implementation
@@ -40,10 +43,19 @@ begin
   Layout1.Parent := pContainer;
 end;
 
+procedure TFrameLogin.AdicionarProcedimentoAposLogar(pProcedimento: TProc);
+begin
+  FExecutarProcedimentoAposLogar := pProcedimento;
+end;
+
 procedure TFrameLogin.SpeedButton1Click(Sender: TObject);
 begin
   TUsuarioLogado.gCodigoUsuario := StrToIntDef(Edit1.Text, 0);
-  FreeAndNil(Self);
+
+  if Assigned(FExecutarProcedimentoAposLogar) then
+    FExecutarProcedimentoAposLogar;
+
+//  Self := nil;
 end;
 
 end.

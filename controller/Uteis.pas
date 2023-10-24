@@ -29,11 +29,17 @@ type
                               const pMask: string);
   end;
 
+  TMensagemAviso = class
+    class procedure AdicionarMensagem(const pTipoMensagem: TTipoMensagem;
+                                      const pMensagem: string;
+                                      const pContainer: TFmxObject);
+  end;
+
 implementation
 
 uses
   System.SysUtils,
-  FMX.Forms;
+  FMX.Forms, System.Classes, AdicionarFrameMensagemAviso;
 
 { TAdicionarFrame }
 
@@ -75,6 +81,42 @@ begin
     Result := 1
   else
     Result := 0;
+end;
+
+{ TMensagemAviso }
+
+class procedure TMensagemAviso.AdicionarMensagem(
+  const pTipoMensagem: TTipoMensagem; const pMensagem: string;
+  const pContainer: TFmxObject);
+var
+  lThreadInserirAviso: TThread;
+begin
+  lThreadInserirAviso := TThread.CreateAnonymousThread(
+                      procedure ()
+                      var
+                        lObjetoFrameMensagem: TFmxObject;
+                      begin
+                        TThread.Synchronize(
+                          TThread.CurrentThread,
+                          PROCEDURE ()
+                          BEGIN
+                            lObjetoFrameMensagem := TAdicionarFrameMensagemAviso
+                                                      .Criar
+                                                      .Mensagem(pMensagem)
+                                                      .TipoMensagem(pTipoMensagem)
+                                                      .Container(pContainer)
+                                                      .Executar;
+                          END
+                        );
+
+                        Sleep(2000);
+
+                        lObjetoFrameMensagem.Free;
+                      end
+                    );
+
+  lThreadInserirAviso.FreeOnTerminate := True;
+  lThreadInserirAviso.Start;
 end;
 
 end.

@@ -41,7 +41,10 @@ uses
   Model.DAO.CopiarDespesas in 'model\DAO\Model.DAO.CopiarDespesas.pas',
   Model.DAO.Copiar in 'model\DAO\Interfaces\Model.DAO.Copiar.pas',
   Model.DAO.Usuario in 'model\DAO\Model.DAO.Usuario.pas',
-  Model.DAO.Interfaces.Usuario in 'model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas';
+  Model.DAO.Interfaces.Usuario in 'model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas',
+  Controller.Cadastros in 'controller\Controller.Cadastros.pas',
+  Controller.Interfaces.Cadastros in 'controller\Interfaces\Controller.Interfaces.Cadastros.pas',
+  Entidades.Usuario in 'model\Entidades\Entidades.Usuario.pas';
 
 {$R *.res}
 

@@ -13,7 +13,8 @@ type
            mnAdicaoGastos,
            mnLogin,
            mnAdicaoDevedores,
-           mnFrameDevedores);
+           mnFrameDevedores,
+           mnConfiguracoes);
 
   TfrmPrincipal = class(TForm)
     lytContainerTotal: TLayout;
@@ -39,7 +40,7 @@ type
     lneAdicionarDespesas: TLine;
     rtcPrincipal: TRectangle;
     lnePrincipal: TLine;
-    SpeedButton1: TSpeedButton;
+    btnConfiguracoes: TSpeedButton;
     lytContainerCadastroDevedores: TLayout;
     rtcAdicionarDevedores: TRectangle;
     Line1: TLine;
@@ -51,7 +52,7 @@ type
     procedure btnPrincipalClick(Sender: TObject);
     procedure btnAdicionarDespesasClick(Sender: TObject);
     procedure btnMostrarMenuEsquerdaClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnConfiguracoesClick(Sender: TObject);
     procedure btnAdicionarDevedoresClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
@@ -63,6 +64,7 @@ type
     procedure MostrarAdicaoGastos;
     procedure MostrarAdicaoDevedores;
     procedure MostrarMenuAcessoRapido;
+    procedure MostrarConfiguracoes;
 
     procedure MostrarTelasValores(const pDataInicial: TDateTime;
                                   const pDataFinal: TDateTime);
@@ -83,7 +85,8 @@ uses
   AdicionarFramesConjunto,
   Controller.VariaveisGlobais,
   Controller,
-  System.DateUtils;
+  System.DateUtils,
+  uFrmConfiguracao;
 
 const
   CONST_ALTURA_FORM = 500;
@@ -147,6 +150,7 @@ begin
     mnLogin: MostrarLogin;
     mnAdicaoDevedores: MostrarAdicaoDevedores;
     mnFrameDevedores: MostrarDevedores;
+    mnConfiguracoes: MostrarConfiguracoes;
   end;
 end;
 
@@ -178,6 +182,14 @@ end;
 procedure TfrmPrincipal.MostrarAdicaoGastos;
 begin
   FContainerAdicionado := TAdicionarCadastroDespesas.Criar.Container(lytContainerTelaInteira).Executar;
+end;
+
+procedure TfrmPrincipal.MostrarConfiguracoes;
+begin
+  FContainerAdicionado := TAdicionarTelaConfiguracoes
+                            .Criar
+                            .Container(lytContainerTelaInteira)
+                            .Executar;
 end;
 
 procedure TfrmPrincipal.MostrarDevedores;
@@ -220,9 +232,9 @@ begin
                               .Executar;
 end;
 
-procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
+procedure TfrmPrincipal.btnConfiguracoesClick(Sender: TObject);
 begin
-  TAdicionarFrameLogin.Criar.Container(Self).Executar;
+  ConfigurarMostrarMenus(mnConfiguracoes);
 end;
 
 procedure TfrmPrincipal.btnPrincipalClick(Sender: TObject);

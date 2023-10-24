@@ -222,6 +222,9 @@
         <DCCReference Include="model\DAO\Interfaces\Model.DAO.Copiar.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.Usuario.pas"/>
         <DCCReference Include="model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas"/>
+        <DCCReference Include="controller\Controller.Cadastros.pas"/>
+        <DCCReference Include="controller\Interfaces\Controller.Interfaces.Cadastros.pas"/>
+        <DCCReference Include="model\Entidades\Entidades.Usuario.pas"/>
         <None Include="C:\Controle-Gasto\ControleGastos.dpr"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
