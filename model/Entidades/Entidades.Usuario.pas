@@ -8,9 +8,10 @@ type
     FId: Integer;
     FNome: string;
     FValorRenda: Double;
+    function GetId: Integer;
 
   public
-    property Id: Integer read FId write Fid;
+    property Id: Integer read GetId write Fid;
     property Nome: string read FNome write FNome;
     property ValorRenda: Double read FValorRenda write FValorRenda;
 
@@ -29,6 +30,11 @@ begin
   Id := pId;
   Nome := pNome;
   ValorRenda := pValorRenda;
+end;
+
+function TUsuario.GetId: Integer;
+begin
+  Result := Fid;
 end;
 
 end.

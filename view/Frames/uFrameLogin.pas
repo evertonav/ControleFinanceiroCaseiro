@@ -34,7 +34,7 @@ type
 implementation
 
 uses
-  Controller.VariaveisGlobais;
+  Controller.VariaveisGlobais, Controller.Cadastros, Entidades.Usuario;
 
 {$R *.fmx}
 
@@ -49,13 +49,31 @@ begin
 end;
 
 procedure TFrameLogin.SpeedButton1Click(Sender: TObject);
+var
+  lUsuario: TUsuario;
 begin
-  TUsuarioLogado.gCodigoUsuario := StrToIntDef(Edit1.Text, 0);
+  lUsuario := nil;
+  TUsuarioLogado.gCodigoUsuario := 0;
+  TUsuarioLogado.gValorRenda := 0;
+
+  try
+    lUsuario := TControllerCadastros.Criar()
+                  .CadastroUsuario()
+                  .Id(StrToIntDef(Edit1.Text, 0))
+                  .Consultar();
+
+    TUsuarioLogado.gCodigoUsuario := StrToIntDef(Edit1.Text, 0); //Até criar um cadastro de usuário descente
+    TUsuarioLogado.gValorRenda := lUsuario.ValorRenda;
+  finally
+    if Assigned(lUsuario) then
+      lUsuario.Free;
+  end;
 
   if Assigned(FExecutarProcedimentoAposLogar) then
     FExecutarProcedimentoAposLogar;
 
-//  Self := nil;
+  //if Assigned(Self) then
+  //  Self.Destroy;
 end;
 
 end.

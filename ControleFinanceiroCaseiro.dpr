@@ -51,10 +51,6 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
-  Application.CreateForm(TfrmConfiguracao, frmConfiguracao);
-  Application.CreateForm(TfrmCadastroPai, frmCadastroPai);
-  Application.CreateForm(TfrmCadastroDespesas, frmCadastroDespesas);
-  Application.CreateForm(TfrmCadastroDevedores, frmCadastroDevedores);
   ReportMemoryLeaksOnShutdown := True;
   Application.Run;
 end.

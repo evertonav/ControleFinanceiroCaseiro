@@ -1,5 +1,12 @@
 unit uFrmConfiguracao;
 
+{
+  Nessa classe tem melhorias para fazer:
+  1 - Refatorar a classe da variavel FCadastroUsuario para poder retornar os
+  valores.
+  2 - Após a primeira melhoria, remover a variável FUsuario.
+}
+
 interface
 
 uses
@@ -45,6 +52,7 @@ type
     FQueryFeature: IModelQueryFeature;
 
     procedure CarregarUsuairo();
+    procedure InserirAtualizarUsuario();
   public
     { Public declarations }
     procedure AdicionarParent(pContainer: TFmxObject);
@@ -70,34 +78,16 @@ end;
 procedure TfrmConfiguracao.btnSalvarClick(Sender: TObject);
 begin
   try
-    FCadastroUsuario
-//      .CadastroUsuario()
-      .Nome(edtNomeUsuario.Text.Trim)
-      .ValorRenda(StrToFloatDef(edtValorRenda.Text, 0));
+    btnSalvar.Enabled := False;
 
-
-      FCadastroUsuario
-//      .CadastroUsuario()
-      .Atualizar();
-
-//      FCadastroUsuario.Inserir();
-
-    TMensagemAviso.AdicionarMensagem(TTipoMensagem.tpMensagemSucesso,
-      'Informações de usuário gravados com sucesso!',
-      lytContainer);
-  except
-    on E: Exception do
-    begin
-      TMensagemAviso.AdicionarMensagem(TTipoMensagem.tpMensagemErro,
-                                       e.Message,
-                                       lytContainer);
-    end;
+    InserirAtualizarUsuario();
+  finally
+    btnSalvar.Enabled := True;
   end;
 end;
 
 procedure TfrmConfiguracao.btnTrocarUsuarioClick(Sender: TObject);
 begin
-
   TFrameLogin(TAdicionarFrameLogin.Criar.Container(lytContainer).Executar)
     .AdicionarProcedimentoAposLogar(procedure ()
                                     begin
@@ -108,14 +98,11 @@ end;
 
 procedure TfrmConfiguracao.CarregarUsuairo;
 begin
-//  FUsuario := nil;
-//  FCadastroUsuario := nil;
   FQueryFeature := TModelQueryFeature.Criar;
 
   FCadastroUsuario := TControllerCadastros.Criar(FQueryFeature).CadastroUsuario;
 
   FUsuario := FCadastroUsuario
-                //.CadastroUsuario()
                 .Id(TUsuarioLogado.gCodigoUsuario)
                 .Consultar();
 
@@ -138,6 +125,46 @@ procedure TfrmConfiguracao.FormDestroy(Sender: TObject);
 begin
   if Assigned(FUsuario) then
     FUsuario.Free;
+
+  TMensagemAviso.ForcarTerminoThread();
+end;
+
+procedure TfrmConfiguracao.InserirAtualizarUsuario;
+begin
+  try
+    FCadastroUsuario  //Refatorar a classe de cadastro usuario
+      .Id(TUsuarioLogado.gCodigoUsuario)
+      .Nome(edtNomeUsuario.Text.Trim)
+      .ValorRenda(StrToFloatDef(edtValorRenda.Text, 0));
+
+    case FUsuario.Id of
+      0:
+      begin
+        FCadastroUsuario.Inserir();
+      end;
+      else
+      begin
+        FCadastroUsuario.Atualizar()
+      end;
+    end;
+
+    TUsuarioLogado.gValorRenda := StrToFloatDef(edtValorRenda.Text, 0);
+
+    TMensagemAviso.ForcarTerminoThread();
+
+    TMensagemAviso.AdicionarMensagem(
+                         TTipoMensagem.tpMensagemSucesso,
+                         'Informações de usuário gravados com sucesso!',
+                         lytContainer);
+
+  except
+    on E: Exception do
+    begin
+      TMensagemAviso.AdicionarMensagem(TTipoMensagem.tpMensagemErro,
+                                       e.Message,
+                                       lytContainer);
+    end;
+  end;
 end;
 
 end.

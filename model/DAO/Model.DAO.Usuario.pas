@@ -29,7 +29,7 @@ type
 implementation
 
 uses
-  Data.DB;
+  Data.DB, System.SysUtils;
 
 { TModelDAOUsuario }
 
@@ -62,6 +62,9 @@ const
 var
   lDadosConsulta: TDataSet;
 begin
+  if FId = 0 then
+    raise Exception.Create('É obrigatório o preenchimento do ID');
+
   lDadosConsulta := FQuery
                       .FecharDataSet
                       .AdicionarSQL(CONST_CONSULTAR_USUARIO)
@@ -77,6 +80,7 @@ end;
 constructor TModelDAOUsuario.Create(pQuery: IModelQuery);
 begin
   FQuery := pQuery;
+  FId := 0;
 end;
 
 class function TModelDAOUsuario.Criar(pQuery: IModelQuery): IModelDAOUsuario;
@@ -94,15 +98,21 @@ end;
 function TModelDAOUsuario.Inserir: IModelDAOUsuario;
 const
   CONST_INSERIR_USUARIO = 'INSERT INTO usuario('
+                        + '  id, '
 	                      + '  nome, '
                         + '  valor_renda) '
 	                      + 'VALUES ( '
+                        + ' :id, '
                         + ' :nome, '
                         + ' :valor_renda)';
 begin
+  if FId = 0 then
+    raise Exception.Create('É obrigatório o preenchimento do ID');
+
   FQuery
     .FecharDataSet
     .AdicionarSQL(CONST_INSERIR_USUARIO)
+    .AdicionarParametro('id', FId)
     .AdicionarParametro('nome', FNome)
     .AdicionarParametro('valor_renda', FValorRenda)
     .ExecutarSQL;
