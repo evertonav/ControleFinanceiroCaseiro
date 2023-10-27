@@ -4,7 +4,8 @@ interface
 
 uses
   FMX.Types,
-  FMX.Edit;
+  FMX.Edit,
+  System.Classes;
 
 type
   TTipoMensagem = (tpMensagemSucesso, tpMensagemErro);
@@ -29,11 +30,25 @@ type
                               const pMask: string);
   end;
 
+  TMensagemAviso = class
+    private
+      class var FThread: TThread;
+    public
+      class procedure ForcarTerminoThread();
+
+      class procedure AdicionarMensagem(const pTipoMensagem: TTipoMensagem;
+                                        const pMensagem: string;
+                                        const pContainer: TFmxObject);
+
+      destructor Destroy; override;
+  end;
+
 implementation
 
 uses
   System.SysUtils,
-  FMX.Forms;
+  FMX.Forms,
+  AdicionarFrameMensagemAviso;
 
 { TAdicionarFrame }
 
@@ -75,6 +90,71 @@ begin
     Result := 1
   else
     Result := 0;
+end;
+
+{ TMensagemAviso }
+
+class procedure TMensagemAviso.AdicionarMensagem(
+  const pTipoMensagem: TTipoMensagem; const pMensagem: string;
+  const pContainer: TFmxObject);
+begin
+  Self.FThread := TThread.CreateAnonymousThread(
+                      procedure ()
+                      var
+                        lObjetoFrameMensagem: TFmxObject;
+                        I: Integer;
+                      begin
+                        TThread.Synchronize(
+                          TThread.CurrentThread,
+                          PROCEDURE ()
+                          BEGIN
+                            lObjetoFrameMensagem := TAdicionarFrameMensagemAviso
+                                                      .Criar
+                                                      .Mensagem(pMensagem)
+                                                      .TipoMensagem(pTipoMensagem)
+                                                      .Container(pContainer)
+                                                      .Executar;
+                          END
+                        );
+
+                        for I := 0 to 100 do
+                        begin
+                          if TThread.CheckTerminated then
+                          begin
+                            Break
+                          end
+                          else
+                            Sleep(2);
+                        end;
+
+
+                        lObjetoFrameMensagem.Free;
+                      end
+                    );
+
+  Self.FThread.Start;
+  Self.FThread.FreeOnTerminate := False;
+end;
+
+destructor TMensagemAviso.Destroy;
+begin
+
+  inherited;
+end;
+
+class procedure TMensagemAviso.ForcarTerminoThread;
+begin
+  if Assigned(Self.FThread)
+  and (Self.FThread <> nil) then
+  begin
+    if not Self.FThread.Finished then
+      Self.FThread.Terminate();
+
+    Sleep(100);
+
+    Self.FThread.FreeInstance;
+    Self.FThread := nil;
+  end;
 end;
 
 end.

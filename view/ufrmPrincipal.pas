@@ -6,14 +6,15 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.StdCtrls, FMX.Controls.Presentation, FMX.Objects,
-  System.Generics.Collections, AdicionarFramesPeriodo;
+  System.Generics.Collections, AdicionarFramesPeriodo, uFrameLogin, Uteis;
 
 type
   TMenu = (mnPrincipal,
            mnAdicaoGastos,
            mnLogin,
            mnAdicaoDevedores,
-           mnFrameDevedores);
+           mnFrameDevedores,
+           mnConfiguracoes);
 
   TfrmPrincipal = class(TForm)
     lytContainerTotal: TLayout;
@@ -39,7 +40,7 @@ type
     lneAdicionarDespesas: TLine;
     rtcPrincipal: TRectangle;
     lnePrincipal: TLine;
-    SpeedButton1: TSpeedButton;
+    btnConfiguracoes: TSpeedButton;
     lytContainerCadastroDevedores: TLayout;
     rtcAdicionarDevedores: TRectangle;
     Line1: TLine;
@@ -47,13 +48,16 @@ type
     imgAdicionarDevedores: TImage;
     lblAdicionarDevedores: TLabel;
     lytContainerRestoTela: TLayout;
+    rtcSair: TRectangle;
+    btnSair: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure btnPrincipalClick(Sender: TObject);
     procedure btnAdicionarDespesasClick(Sender: TObject);
     procedure btnMostrarMenuEsquerdaClick(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnConfiguracoesClick(Sender: TObject);
     procedure btnAdicionarDevedoresClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
     FContainerAdicionado: TFmxObject;
@@ -63,6 +67,7 @@ type
     procedure MostrarAdicaoGastos;
     procedure MostrarAdicaoDevedores;
     procedure MostrarMenuAcessoRapido;
+    procedure MostrarConfiguracoes;
 
     procedure MostrarTelasValores(const pDataInicial: TDateTime;
                                   const pDataFinal: TDateTime);
@@ -83,7 +88,8 @@ uses
   AdicionarFramesConjunto,
   Controller.VariaveisGlobais,
   Controller,
-  System.DateUtils;
+  System.DateUtils,
+  uFrmConfiguracao;
 
 const
   CONST_ALTURA_FORM = 500;
@@ -147,15 +153,20 @@ begin
     mnLogin: MostrarLogin;
     mnAdicaoDevedores: MostrarAdicaoDevedores;
     mnFrameDevedores: MostrarDevedores;
+    mnConfiguracoes: MostrarConfiguracoes;
   end;
 end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
-  TUsuarioLogado.gCodigoUsuario := 1;
-  TUsuarioLogado.gValorRenda := 3500;
+  FContainerAdicionado := TAdicionarFrameLogin.Criar.Container(lytContainerTotal).Executar;
 
-  ConfigurarMostrarMenus(mnPrincipal);
+  TFrameLogin(FContainerAdicionado).AdicionarProcedimentoAposLogar(procedure ()
+                                                                    begin
+                                                                      frmPrincipal.ConfigurarMostrarMenus(mnPrincipal);
+                                                                    end );
+
+
 
   frmPrincipal.Height := CONST_ALTURA_FORM;
   frmPrincipal.Width := CONST_LARGURA_FORM;
@@ -177,7 +188,15 @@ end;
 
 procedure TfrmPrincipal.MostrarAdicaoGastos;
 begin
-  FContainerAdicionado := TAdicionarCadastroDespesas.Criar.Container(lytContainerTelaInteira).Executar;
+   FContainerAdicionado := TAdicionarCadastroDespesas.Criar.Container(lytContainerTelaInteira).Executar;
+end;
+
+procedure TfrmPrincipal.MostrarConfiguracoes;
+begin
+  FContainerAdicionado := TAdicionarTelaConfiguracoes
+                             .Criar
+                             .Container(lytContainerTelaInteira)
+                             .Executar;
 end;
 
 procedure TfrmPrincipal.MostrarDevedores;
@@ -220,14 +239,21 @@ begin
                               .Executar;
 end;
 
-procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
+procedure TfrmPrincipal.btnConfiguracoesClick(Sender: TObject);
 begin
-  TAdicionarFrameLogin.Criar.Container(Self).Executar;
+  ConfigurarMostrarMenus(mnConfiguracoes);
 end;
 
 procedure TfrmPrincipal.btnPrincipalClick(Sender: TObject);
 begin
   ConfigurarMostrarMenus(mnPrincipal);
+end;
+
+procedure TfrmPrincipal.btnSairClick(Sender: TObject);
+begin
+  TMensagemAviso.ForcarTerminoThread();
+
+  Self.Close;
 end;
 
 procedure TfrmPrincipal.btnAdicionarDevedoresClick(Sender: TObject);

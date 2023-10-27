@@ -42,6 +42,11 @@ type
     function Executar:  TFmxObject; override;
   end;
 
+  TAdicionarTelaConfiguracoes = class(TAdicionarFrame)
+  public
+    function Executar:  TFmxObject; override;
+  end;
+
 implementation
 
 uses
@@ -50,7 +55,7 @@ uses
   uFrmCadastroDespesas,
   Uteis,
   uFrameLogin,
-  uFrmCadastroDevedores;
+  uFrmCadastroDevedores, uFrmConfiguracao;
 
 { TAdicionarFrameMenuAcessoRapido }
 
@@ -120,6 +125,20 @@ begin
   lFrmCadastroDevedores.Name := lFrmCadastroDevedores.ClassName + '_';
 
   Result := lFrmCadastroDevedores;
+end;
+
+{ TAdicionarTelaConfiguracoes }
+
+function TAdicionarTelaConfiguracoes.Executar: TFmxObject;
+var
+  lfrmConfiguracoes: TfrmConfiguracao;
+begin
+  lfrmConfiguracoes := TfrmConfiguracao.Create(FContainer);
+
+  lfrmConfiguracoes.AdicionarParent(FContainer);
+  lfrmConfiguracoes.Name := lfrmConfiguracoes.ClassName + '_';
+
+  Result := lfrmConfiguracoes;
 end;
 
 end.
