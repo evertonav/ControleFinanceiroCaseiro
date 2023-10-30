@@ -1,12 +1,5 @@
 unit uFrmConfiguracao;
 
-{
-  Nessa classe tem melhorias para fazer:
-  1 - Refatorar a classe da variavel FCadastroUsuario para poder retornar os
-  valores.
-  2 - Após a primeira melhoria, remover a variável FUsuario.
-}
-
 interface
 
 uses
@@ -46,9 +39,7 @@ type
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
-    //FCadastroUsuario: IControllerCadastros;
     FCadastroUsuario: IModelDAOUsuario;
-    FUsuario: TUsuario;
     FQueryFeature: IModelQueryFeature;
 
     procedure CarregarUsuairo();
@@ -102,12 +93,10 @@ begin
 
   FCadastroUsuario := TControllerCadastros.Criar(FQueryFeature).CadastroUsuario;
 
-  FUsuario := FCadastroUsuario
-                .Id(TUsuarioLogado.gCodigoUsuario)
-                .Consultar();
+  FCadastroUsuario.Id(TUsuarioLogado.gCodigoUsuario).Consultar();
 
-  Self.edtNomeUsuario.Text := FUsuario.Nome;
-  Self.edtValorRenda.Text := FormatFloat('#0.00', FUsuario.ValorRenda);
+  Self.edtNomeUsuario.Text := FCadastroUsuario.GetNome();
+  Self.edtValorRenda.Text := FormatFloat('#0.00', FCadastroUsuario.GetValorRenda());
 end;
 
 procedure TfrmConfiguracao.edtValorRendaKeyUp(Sender: TObject; var Key: Word;
@@ -123,21 +112,24 @@ end;
 
 procedure TfrmConfiguracao.FormDestroy(Sender: TObject);
 begin
-  if Assigned(FUsuario) then
-    FUsuario.Free;
-
   TMensagemAviso.ForcarTerminoThread();
 end;
 
 procedure TfrmConfiguracao.InserirAtualizarUsuario;
+var
+  lIdUsuario: Integer;
 begin
   try
-    FCadastroUsuario  //Refatorar a classe de cadastro usuario
-      .Id(TUsuarioLogado.gCodigoUsuario)
+    {Tive que fazer isso porque ainda não criei no login um cadastro se caso não
+    tenha usuário de login, então ele loga com qualquer código de usuário}
+    lIdUsuario := FCadastroUsuario.GetId();
+
+    FCadastroUsuario
+      .Id(TUsuarioLogado.gCodigoUsuario) //
       .Nome(edtNomeUsuario.Text.Trim)
       .ValorRenda(StrToFloatDef(edtValorRenda.Text, 0));
 
-    case FUsuario.Id of
+    case lIdUsuario of
       0:
       begin
         FCadastroUsuario.Inserir();

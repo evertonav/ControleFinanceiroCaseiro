@@ -17,9 +17,13 @@ type
     function Nome(const pValor: string): IModelDAOUsuario;
     function ValorRenda(const pValor: double): IModelDAOUsuario;
 
+    function GetId: Integer;
+    function GetNome: string;
+    function GetValorRenda: Double;
+
     function Inserir(): IModelDAOUsuario;
     function Atualizar(): IModelDAOUsuario;
-    function Consultar(): TUsuario;
+    function Consultar(): IModelDAOUsuario;
 
     constructor Create(pQuery: IModelQuery);
 
@@ -51,7 +55,7 @@ begin
   Result := Self;
 end;
 
-function TModelDAOUsuario.Consultar(): TUsuario;
+function TModelDAOUsuario.Consultar(): IModelDAOUsuario;
 const
   CONST_CONSULTAR_USUARIO = 'SELECT '
                           + '  id, '
@@ -72,9 +76,11 @@ begin
                       .AbrirDataSet
                       .GetQuery;
 
-  Result := TUsuario.Create(lDadosConsulta.FieldByName('id').AsInteger,
-                            lDadosConsulta.FieldByName('Nome').AsString,
-                            lDadosConsulta.FieldByName('valor_renda').AsFloat);
+  FId := lDadosConsulta.FieldByName('id').AsInteger;
+  FNome := lDadosConsulta.FieldByName('Nome').AsString;
+  FValorRenda := lDadosConsulta.FieldByName('valor_renda').AsFloat;
+
+  Result := Self;
 end;
 
 constructor TModelDAOUsuario.Create(pQuery: IModelQuery);
@@ -86,6 +92,21 @@ end;
 class function TModelDAOUsuario.Criar(pQuery: IModelQuery): IModelDAOUsuario;
 begin
   Result := Self.Create(pQuery);
+end;
+
+function TModelDAOUsuario.GetId: Integer;
+begin
+  Result := FId;
+end;
+
+function TModelDAOUsuario.GetNome: string;
+begin
+  Result := FNome;
+end;
+
+function TModelDAOUsuario.GetValorRenda: Double;
+begin
+  Result := FValorRenda;
 end;
 
 function TModelDAOUsuario.Id(const pId: Integer): IModelDAOUsuario;
