@@ -28,23 +28,24 @@ uses
   uFrmCadastroDespesas in 'view\uFrmCadastroDespesas.pas' {frmCadastroDespesas},
   uFrmCadastroDevedores in 'view\uFrmCadastroDevedores.pas' {frmCadastroDevedores},
   uFrameTotalizadorDevedores in 'view\Frames\uFrameTotalizadorDevedores.pas' {FrameTotalizadorDevedores: TFrame},
-  AdicionarFrames in 'view\Frames\AdicionarFrames.pas',
-  AdicionarFramesConjunto in 'view\Frames\AdicionarFramesConjunto.pas',
-  AdicionarFramesPeriodo in 'view\Frames\AdicionarFramesPeriodo.pas',
   Model.DAO.BuscarDevedores in 'model\DAO\Model.DAO.BuscarDevedores.pas',
   Model.DAO.Despesas in 'model\DAO\Model.DAO.Despesas.pas',
   Model.DAO.BuscarPessoas in 'model\DAO\Model.DAO.BuscarPessoas.pas',
   uFrameDespesasPagas in 'view\Frames\uFrameDespesasPagas.pas' {FrameDespesasPagas: TFrame},
   uFrameItemDespesaPaga in 'view\Frames\uFrameItemDespesaPaga.pas' {FrameItemDespesaPaga: TFrame},
   uFrameMensagemAviso in 'view\Frames\uFrameMensagemAviso.pas' {FrameMensagemAviso: TFrame},
-  AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrameMensagemAviso.pas',
   Model.DAO.CopiarDespesas in 'model\DAO\Model.DAO.CopiarDespesas.pas',
   Model.DAO.Copiar in 'model\DAO\Interfaces\Model.DAO.Copiar.pas',
   Model.DAO.Usuario in 'model\DAO\Model.DAO.Usuario.pas',
   Model.DAO.Interfaces.Usuario in 'model\DAO\Interfaces\Model.DAO.Interfaces.Usuario.pas',
   Controller.Cadastros in 'controller\Controller.Cadastros.pas',
   Controller.Interfaces.Cadastros in 'controller\Interfaces\Controller.Interfaces.Cadastros.pas',
-  Entidades.Usuario in 'model\Entidades\Entidades.Usuario.pas';
+  Entidades.Usuario in 'model\Entidades\Entidades.Usuario.pas',
+  AdicionarFrameMensagemAviso in 'view\Frames\AdicionarFrame\AdicionarFrameMensagemAviso.pas',
+  AdicionarFrames in 'view\Frames\AdicionarFrame\AdicionarFrames.pas',
+  AdicionarFramesConjunto in 'view\Frames\AdicionarFrame\AdicionarFramesConjunto.pas',
+  AdicionarFramesPeriodo in 'view\Frames\AdicionarFrame\AdicionarFramesPeriodo.pas',
+  uFrameAtualizarMes in 'view\Frames\uFrameAtualizarMes.pas' {FrameAtualizarMes: TFrame};
 
 {$R *.res}
 

@@ -196,9 +196,6 @@
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="view\Frames\AdicionarFrames.pas"/>
-        <DCCReference Include="view\Frames\AdicionarFramesConjunto.pas"/>
-        <DCCReference Include="view\Frames\AdicionarFramesPeriodo.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.BuscarDevedores.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.Despesas.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.BuscarPessoas.pas"/>
@@ -217,7 +214,6 @@
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="view\Frames\AdicionarFrameMensagemAviso.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.CopiarDespesas.pas"/>
         <DCCReference Include="model\DAO\Interfaces\Model.DAO.Copiar.pas"/>
         <DCCReference Include="model\DAO\Model.DAO.Usuario.pas"/>
@@ -225,6 +221,15 @@
         <DCCReference Include="controller\Controller.Cadastros.pas"/>
         <DCCReference Include="controller\Interfaces\Controller.Interfaces.Cadastros.pas"/>
         <DCCReference Include="model\Entidades\Entidades.Usuario.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFrame\AdicionarFrameMensagemAviso.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFrame\AdicionarFrames.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFrame\AdicionarFramesConjunto.pas"/>
+        <DCCReference Include="view\Frames\AdicionarFrame\AdicionarFramesPeriodo.pas"/>
+        <DCCReference Include="view\Frames\uFrameAtualizarMes.pas">
+            <Form>FrameAtualizarMes</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <None Include="C:\Controle-Gasto\ControleGastos.dpr"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
