@@ -49,25 +49,18 @@ begin
 end;
 
 procedure TFrameLogin.SpeedButton1Click(Sender: TObject);
-var
-  lUsuario: TUsuario;
 begin
-  lUsuario := nil;
   TUsuarioLogado.gCodigoUsuario := 0;
   TUsuarioLogado.gValorRenda := 0;
 
-  try
-    lUsuario := TControllerCadastros.Criar()
-                  .CadastroUsuario()
-                  .Id(StrToIntDef(Edit1.Text, 0))
-                  .Consultar();
+  TUsuarioLogado.gCodigoUsuario := StrToIntDef(Edit1.Text, 0); //Até criar um cadastro de usuário descente
 
-    TUsuarioLogado.gCodigoUsuario := StrToIntDef(Edit1.Text, 0); //Até criar um cadastro de usuário descente
-    TUsuarioLogado.gValorRenda := lUsuario.ValorRenda;
-  finally
-    if Assigned(lUsuario) then
-      lUsuario.Free;
-  end;
+  TUsuarioLogado.gValorRenda := TControllerCadastros
+                                  .Criar()
+                                  .CadastroUsuario()
+                                  .Id(StrToIntDef(Edit1.Text, 0))
+                                  .Consultar()
+                                  .GetValorRenda();
 
   if Assigned(FExecutarProcedimentoAposLogar) then
     FExecutarProcedimentoAposLogar;

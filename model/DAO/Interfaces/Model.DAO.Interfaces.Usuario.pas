@@ -11,9 +11,13 @@ type
     function Nome(const pValor: string): IModelDAOUsuario;
     function ValorRenda(const pValor: double): IModelDAOUsuario;
 
+    function GetId: Integer;
+    function GetNome: string;
+    function GetValorRenda: Double;
+
     function Inserir(): IModelDAOUsuario;
     function Atualizar(): IModelDAOUsuario;
-    function Consultar(): TUsuario;
+    function Consultar(): IModelDAOUsuario;
   end;
 
 implementation
