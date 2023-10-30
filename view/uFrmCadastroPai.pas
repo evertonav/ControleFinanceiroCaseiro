@@ -50,6 +50,7 @@ type
     procedure mniAlterarClick(Sender: TObject);
     procedure grdListagemDespesasCellDblClick(const Column: TColumn;
       const Row: Integer);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FConexao: IModelConexaoFeature;
@@ -82,7 +83,6 @@ procedure TfrmCadastroPai.AdicionarMensagemAviso(
   const pTipoMensagem: TTipoMensagem; const pMensagem: string;
   const pContainer: TFmxObject);
 var
-  lThreadInserirAviso: TThread;
   lContainer: TFmxObject;
 begin
   if pContainer = nil then
@@ -90,32 +90,11 @@ begin
   else
     lContainer := pContainer;
 
-  lThreadInserirAviso := TThread.CreateAnonymousThread(
-                      procedure ()
-                      var
-                        lObjetoFrameMensagem: TFmxObject;
-                      begin
-                        TThread.Synchronize(
-                          TThread.CurrentThread,
-                          PROCEDURE ()
-                          BEGIN
-                            lObjetoFrameMensagem := TAdicionarFrameMensagemAviso
-                                                      .Criar
-                                                      .Mensagem(pMensagem)
-                                                      .TipoMensagem(pTipoMensagem)
-                                                      .Container(lContainer)
-                                                      .Executar;
-                          END
-                        );
+  TMensagemAviso.ForcarTerminoThread();
 
-                        Sleep(2000);
-
-                        lObjetoFrameMensagem.Free;
-                      end
-                    );
-
-  lThreadInserirAviso.FreeOnTerminate := True;
-  lThreadInserirAviso.Start;
+  TMensagemAviso.AdicionarMensagem(pTipoMensagem,
+                                   pMensagem,
+                                   lContainer);
 end;
 
 procedure TfrmCadastroPai.AdicionarParent(const pContainer: TFmxObject);
@@ -158,6 +137,11 @@ begin
   qrPesquisar.Connection := TFDCustomConnection(FConexao.Conexao);
 
   AtivarAbaCadastro;
+end;
+
+procedure TfrmCadastroPai.FormDestroy(Sender: TObject);
+begin
+  TMensagemAviso.ForcarTerminoThread();
 end;
 
 procedure TfrmCadastroPai.grdListagemDespesasCellDblClick(const Column: TColumn;
