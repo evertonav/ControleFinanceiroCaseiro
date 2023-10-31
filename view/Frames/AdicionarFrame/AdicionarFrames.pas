@@ -166,7 +166,7 @@ begin
 
   lFrameAtualizarMes.AdicionarParent(FContainer);
   lFrameAtualizarMes.Name := lFrameAtualizarMes.ClassName + '_';
-  lframeAtualizarMes.Data := FData;
+  lframeAtualizarMes.DataFiltro := FData;
   lframeAtualizarMes.Atualizar();
 
   Result := lFrameAtualizarMes;

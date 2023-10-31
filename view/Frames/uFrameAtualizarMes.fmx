@@ -1,0 +1,83 @@
+inherited FrameAtualizarMes: TFrameAtualizarMes
+  Align = Top
+  Margins.Bottom = 10.000000000000000000
+  Size.Height = 49.000000000000000000
+  object lytContainer: TLayout
+    Align = Client
+    Size.Width = 320.000000000000000000
+    Size.Height = 49.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object rtcContainer: TRectangle
+      Align = Client
+      Fill.Color = xFF181B23
+      Size.Width = 320.000000000000000000
+      Size.Height = 49.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      Stroke.Thickness = 2.000000000000000000
+      XRadius = 10.000000000000000000
+      YRadius = 10.000000000000000000
+      object lytMesAno: TLayout
+        Align = Client
+        Size.Width = 320.000000000000000000
+        Size.Height = 49.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object rtcMesAno: TRectangle
+          Align = Client
+          Fill.Color = xFF181B23
+          Size.Width = 220.000000000000000000
+          Size.Height = 49.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Kind = None
+          XRadius = 10.000000000000000000
+          YRadius = 10.000000000000000000
+        end
+        object lblMesAno: TLabel
+          Align = Center
+          StyledSettings = [Family]
+          TextSettings.Font.Size = 15.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'M'#234's/Ano'
+          TabOrder = 2
+        end
+        object ltybtnProximo: TLayout
+          Align = Right
+          Position.X = 270.000000000000000000
+          Size.Width = 50.000000000000000000
+          Size.Height = 49.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 4
+          object btnProximo: TSpeedButton
+            Align = Client
+            Size.Width = 50.000000000000000000
+            Size.Height = 49.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'arrowrighttoolbutton'
+            Text = 'SpeedButton1'
+            OnClick = btnProximoClick
+          end
+        end
+        object lytbtnAnterior: TLayout
+          Align = Left
+          Size.Width = 50.000000000000000000
+          Size.Height = 49.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 3
+          object btnAnterior: TSpeedButton
+            Align = Client
+            Size.Width = 50.000000000000000000
+            Size.Height = 49.000000000000000000
+            Size.PlatformDefault = False
+            StyleLookup = 'arrowlefttoolbutton'
+            Text = 'btnAnterior'
+            OnClick = btnAnteriorClick
+          end
+        end
+      end
+    end
+  end
+end

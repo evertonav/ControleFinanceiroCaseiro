@@ -2,3 +2,6 @@
 /Win32/Debug/lib
 *.dproj.local
 *.identcache
+*.dpr.~*
+*.pas.~*
+*.fmx.~*
