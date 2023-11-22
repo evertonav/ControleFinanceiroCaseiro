@@ -135,12 +135,12 @@ begin
       lDataFinal := EndOfTheMonth(Now);
 
       if TController
-	    .Criar
-	    .DespesasXSobrando
-	    .IdUsuario(TUsuarioLogado.gCodigoUsuario)
-	    .DataInicial(lDataInicial)
-	    .DataFinal(lDataFinal)
-	    .TotalDespesas > 0 then
+        .Criar
+        .DespesasXSobrando
+        .IdUsuario(TUsuarioLogado.gCodigoUsuario)
+        .DataInicial(lDataInicial)
+        .DataFinal(lDataFinal)
+        .TotalDespesas > 0 then
 
         MostrarTelasValores(lDataInicial, lDataFinal)
       else
@@ -220,6 +220,7 @@ var
   lFrameDespesasXSobrando: TAdicionarFramePeriodo;
   lFrameDevedores: TAdicionarFramePeriodo;
   lFrameDespesasPagas: TAdicionarFramePeriodo;
+  lFrameAtualizarMes: TAdicionarFrame;
 begin
     lFrameDespesasXSobrando := TAdicionarFrameDespesasXSobrando.Create;
     lFrameDespesasXSobrando.DataInicial(pDataInicial).DataFinal(pDataFinal);
@@ -230,8 +231,11 @@ begin
     lFrameDespesasPagas := TAdicionarFrameDespesasPagas.Create;
     lFrameDespesasPagas.DataInicial(pDataInicial).DataFinal(pDataFinal);
 
+    lFrameAtualizarMes := TAdicionarFrameAtualizarMes.Create(pDataInicial);
+
     FContainerAdicionado := TAdicionarFrameConjunto
                               .Criar
+                              .AdicionarTela(lFrameAtualizarMes)
                               .AdicionarTela(lFrameDespesasXSobrando)
                               .AdicionarTela(lFrameDevedores)
                               .AdicionarTela(lFrameDespesasPagas)
